@@ -15,8 +15,8 @@ SRC = src
 OBJ = obj
 INC = include
 
-OBJS = $(OBJ)/main.o $(OBJ)/vocabulario.o $(OBJ)/memlog.o
-HDRS = $(INC)/vocabulario.hpp $(INC)/memlog.hpp
+OBJS = $(OBJ)/main.o $(OBJ)/opcoesMain.o  $(OBJ)/vocabulario.o $(OBJ)/processadorDeDocumentos.o $(OBJ)/memlog.o
+HDRS = $(INC)/opcoesMain.hpp $(INC)/vocabulario.hpp $(INC)/processadorDeDocumentos.hpp $(INC)/memlog.hpp
 
 CXXFLAGS = -c -g -std=c++17 -Wall -I$(INC)
 
@@ -30,8 +30,14 @@ $(BIN)/main: $(OBJS)
 $(OBJ)/main.o: $(HDRS) $(SRC)/main.cpp
 	$(CXX) $(CXXFLAGS) -o $(OBJ)/main.o $(SRC)/main.cpp
 
+$(OBJ)/opcoesMain.o: $(HDRS) $(SRC)/opcoesMain.cpp
+	$(CXX) $(CXXFLAGS) -o $(OBJ)/opcoesMain.o $(SRC)/opcoesMain.cpp
+
 $(OBJ)/vocabulario.o: $(HDRS) $(SRC)/vocabulario.cpp
 	$(CXX) $(CXXFLAGS) -o $(OBJ)/vocabulario.o $(SRC)/vocabulario.cpp
+
+$(OBJ)/processadorDeDocumentos.o: $(HDRS) $(SRC)/processadorDeDocumentos.cpp
+	$(CXX) $(CXXFLAGS) -o $(OBJ)/processadorDeDocumentos.o $(SRC)/processadorDeDocumentos.cpp
 
 $(OBJ)/memlog.o: $(HDRS) $(SRC)/memlog.cpp
 	$(CXX) $(CXXFLAGS) -o $(OBJ)/memlog.o $(SRC)/memlog.cpp
