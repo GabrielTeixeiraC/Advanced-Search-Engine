@@ -16,8 +16,10 @@
 namespace fs = experimental::filesystem;
 using namespace fs;
 
-IndiceInvertido::IndiceInvertido(){
+IndiceInvertido::IndiceInvertido(int tamanhoMaximoIndice){
+    this->tamanhoMaximoIndice = tamanhoMaximoIndice;
 
+    indiceInvertido = new ListaEncadeada[tamanhoMaximoIndice];
 }
 
 
@@ -30,7 +32,7 @@ long long IndiceInvertido::calculaHash(string termo) {
         valorHash = (valorHash + (termo[i] - 'a' + 1) * potenciaDoPrimo) % modulo;
         potenciaDoPrimo = (potenciaDoPrimo * primo) % modulo;
     }
-    return valorHash % tamanhoIndiceInvertido;
+    return valorHash % tamanhoMaximoIndice;
 }
 
 void IndiceInvertido::Insere(string termo, TermoIndice item) {
@@ -45,48 +47,34 @@ ListaEncadeada IndiceInvertido::Pesquisa(string termo) {
     ListaEncadeada item;
 
     pos = calculaHash(termo);
-    item = indiceInvertido[pos];
-
+    if (indiceInvertido[pos].getTamanho() == 0) {
+        avisoAssert(indiceInvertido[pos].getTamanho() > 0, "Erro: Palavra não está presente nos documentos.");
+    }
+    else{
+        item = indiceInvertido[pos];
+    }
     return item;
+
 }
 
 
 void IndiceInvertido::criaIndice(string nomePastaCorpus, string nomeArquivoStopwords){
     ProcessadorDeDocumentos processador;
-    tamanhoIndiceInvertido = 0;
 
     for(const auto & arquivo : fs::directory_iterator(nomePastaCorpus)) {
-
-        int tamanhoMaximoVocabulario = processador.processaDocumento(arquivo.path());
-
-        tamanhoIndiceInvertido += tamanhoMaximoVocabulario;
-
-        ifstream documento;
-        documento.open(arquivo.path());
-        erroAssert(documento.is_open(), "Documento não foi aberto.");
-        
-        Vocabulario vocabulario = Vocabulario(tamanhoMaximoVocabulario);
-
-        while (!documento.eof()) {
-            string termo;
-            documento >> termo;
-            if(!documento.good()) {
-                break;
-            }
-
-            if (processador.eStopword(termo, nomeArquivoStopwords)) {
-                continue;
-            }
-            else {
-                vocabulario.adicionaTermoVocabulario(termo);
-            }
-                      
-        }
+        int tamanhoVocabularioDocumento;
+        tamanhoVocabularioDocumento = processador.contaNumeroDeTermos(arquivo.path());
+        Vocabulario vocabulario = Vocabulario(tamanhoVocabularioDocumento);
+  
+        vocabulario.criaVocabularioDocumento(arquivo.path(), nomeArquivoStopwords);
 
         for (int i = 0; i < vocabulario.getTamanhoVocabulario(); i++){
             cout << vocabulario.vetorDeTermos[i].termo << " " << vocabulario.vetorDeTermos[i].frequencia << endl;
         }
         cout << "-----------------------------" << endl;
-        documento.close();
     }
+}
+
+void IndiceInvertido::desaloca() {
+    delete[] this->indiceInvertido;
 }

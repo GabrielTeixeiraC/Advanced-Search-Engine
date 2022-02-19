@@ -14,6 +14,41 @@
 #include "processadorDeDocumentos.hpp"
 #include "memlog.hpp"
 
+namespace fs = experimental::filesystem;
+using namespace fs;
+
+int ProcessadorDeDocumentos::contaNumeroDeTermos(string nomeDocumento){
+    ifstream documento;
+    documento.open(nomeDocumento);
+    erroAssert(documento.is_open(), "Documento não foi aberto.");
+    
+    int numeroDeTermos = 5;
+
+    while (!documento.eof()) {
+        string termo;
+        documento >> termo;
+
+        numeroDeTermos++; 
+    }
+    documento.close();
+
+    return numeroDeTermos;
+}
+
+int ProcessadorDeDocumentos::processaCorpus(string nomePastaCorpus){
+    int tamanhoMaximoIndice = 0;
+
+    for(const auto & arquivo : fs::directory_iterator(nomePastaCorpus)) {
+
+        int tamanhoMaximoVocabulario = processaDocumento(arquivo.path());
+
+        tamanhoMaximoIndice += tamanhoMaximoVocabulario;
+
+    }
+
+    return tamanhoMaximoIndice; 
+}
+
 int ProcessadorDeDocumentos::processaDocumento(string nomeDocumento) {
     ifstream documento;
     documento.open(nomeDocumento);
@@ -70,27 +105,3 @@ int ProcessadorDeDocumentos::processaDocumento(string nomeDocumento) {
     return contadorDeTermos;
 }
 
-bool ProcessadorDeDocumentos::eStopword(string palavra, string nomeArquivoStopwords) {
-// Descricao: retorna se palavra é stopword ou não
-// Entrada: palavra
-// Saida: bool
-{
-    ifstream arquivoDeStopwords;
-    arquivoDeStopwords.open(nomeArquivoStopwords);
-    erroAssert(arquivoDeStopwords.is_open(), "Arquivo de stopwords não foi aberto.");
-    
-    while (!arquivoDeStopwords.eof()) {
-        string stopword;
-
-        arquivoDeStopwords >> stopword;
-
-        if (stopword == palavra){
-            return true;
-        }
-        else {
-            continue;
-        }
-    }
-    return false;   
-}
-}

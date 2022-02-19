@@ -16,13 +16,14 @@ using namespace std;
 
 class IndiceInvertido {
     public:
-        int tamanhoIndiceInvertido;
+        int tamanhoMaximoIndice;
         ListaEncadeada* indiceInvertido;
-        IndiceInvertido(tamanho);
+        IndiceInvertido(int tamanhoMaximoIndice);
         long long calculaHash(string termo);
         void Insere(string termo, TermoIndice item);
         ListaEncadeada Pesquisa(string termo);
         void criaIndice(string nomePastaCorpus, string nomeArquivoStopwords);
+        void desaloca();
 };
 
 #endif

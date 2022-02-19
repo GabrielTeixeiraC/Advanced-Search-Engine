@@ -5,11 +5,18 @@
 // Historico	: 2022-02-18 - arquivo criado
 //---------------------------------------------------------------------
 
+#include <fstream>
 #include "vocabulario.hpp"
+#include "msgassert.hpp"
 #include "memlog.hpp"
 
 Vocabulario::Vocabulario(int tamanhoMaximoVocabulario) {
+    tamanhoVocabulario = 0;
     vetorDeTermos = new TermoVocabulario[tamanhoMaximoVocabulario];
+}
+
+void Vocabulario::desaloca() {
+    delete[] this->vetorDeTermos;
 }
 
 int Vocabulario::posicaoTermoNoVocabulario(string termo) {
@@ -40,8 +47,50 @@ int Vocabulario::getTamanhoVocabulario() {
     return tamanhoVocabulario;
 }
 
+bool Vocabulario::eStopword(string palavra, string nomeArquivoStopwords)
+// Descricao: retorna se palavra é stopword ou não
+// Entrada: palavra
+// Saida: bool
+{
+    ifstream arquivoDeStopwords;
+    arquivoDeStopwords.open(nomeArquivoStopwords);
+    erroAssert(arquivoDeStopwords.is_open(), "Arquivo de stopwords não foi aberto.");
+    
+    while (!arquivoDeStopwords.eof()) {
+        string stopword;
 
-Vocabulario::~Vocabulario() {
-    delete[] this->vetorDeTermos;
+        arquivoDeStopwords >> stopword;
+
+        if (stopword == palavra){
+            return true;
+        }
+        else {
+            continue;
+        }
+    }
+    return false;
+}
+
+void Vocabulario::criaVocabularioDocumento(string nomeDocumento, string nomeArquivoStopwords) {
+    ifstream documento;
+    documento.open(nomeDocumento);
+    erroAssert(documento.is_open(), "Documento não foi aberto.");
+        
+    while (!documento.eof()) {
+        string termo;
+        documento >> termo;
+        if(!documento.good()) {
+            break;
+        }
+
+        if (eStopword(termo, nomeArquivoStopwords)) {
+            continue;
+        }
+        else {
+            adicionaTermoVocabulario(termo);
+        }               
+    }
+    documento.close();
+
 }
 

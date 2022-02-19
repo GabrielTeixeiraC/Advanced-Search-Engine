@@ -15,9 +15,9 @@ using namespace std;
 class ProcessadorDeDocumentos {
     public:
         ProcessadorDeDocumentos() = default;
+        int contaNumeroDeTermos(string nomeDocumento);
         int processaCorpus(string nomePastaCorpus);
         int processaDocumento(string nomeDocumento);
-        bool eStopword(string palavra, string nomeArquivoStopwords);
 };
 
 #endif

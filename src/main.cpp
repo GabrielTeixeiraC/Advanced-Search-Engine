@@ -29,20 +29,18 @@ int main(int argc, char ** argv)
 
     // iniciaMemLog((char *) nomeArquivoLog.c_str());
 
-    int tamanhoMaximoIndice = 0;
-
-    ProcessadorDeDocumentos processador;
-    processador.processaDocumento();
-
-
-
     // ativar registro de acesso
     if (opcoes.regmem == 1){
         ativaMemLog();
     }
     else desativaMemLog();
 
-    IndiceInvertido indiceInvertido;
+    int tamanhoMaximoIndice = 0;
+
+    ProcessadorDeDocumentos processador;
+    tamanhoMaximoIndice = processador.processaCorpus(opcoes.nomePastaCorpus);
+
+    IndiceInvertido indiceInvertido = IndiceInvertido(tamanhoMaximoIndice);
 
     indiceInvertido.criaIndice(opcoes.nomePastaCorpus, opcoes.nomeArquivoStopwords);
 

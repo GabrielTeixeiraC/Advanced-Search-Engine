@@ -269,10 +269,6 @@ TermoIndice ListaEncadeada::removePosicao(int pos){
     return aux;
 }
 
-TermoIndice ListaEncadeada::pesquisa(string termo) {
-    
-}
-
 void ListaEncadeada::limpa(){
 // Descricao: limpa a Lista Encadeada, permite evitar vazamentos de memória
 // Entrada: -
