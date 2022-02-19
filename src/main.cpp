@@ -29,6 +29,13 @@ int main(int argc, char ** argv)
 
     // iniciaMemLog((char *) nomeArquivoLog.c_str());
 
+    int tamanhoMaximoIndice = 0;
+
+    ProcessadorDeDocumentos processador;
+    processador.processaDocumento();
+
+
+
     // ativar registro de acesso
     if (opcoes.regmem == 1){
         ativaMemLog();
