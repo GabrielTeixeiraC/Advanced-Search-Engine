@@ -16,6 +16,11 @@
 namespace fs = experimental::filesystem;
 using namespace fs;
 
+IndiceInvertido::IndiceInvertido(){
+
+}
+
+
 long long IndiceInvertido::calculaHash(string termo) {
     int primo = 31;
     int modulo = 1e9 + 9;
@@ -25,14 +30,36 @@ long long IndiceInvertido::calculaHash(string termo) {
         valorHash = (valorHash + (termo[i] - 'a' + 1) * potenciaDoPrimo) % modulo;
         potenciaDoPrimo = (potenciaDoPrimo * primo) % modulo;
     }
-    return valorHash;
+    return valorHash % tamanhoIndiceInvertido;
 }
 
+void IndiceInvertido::Insere(string termo, TermoIndice item) {
+    int posicao;
+
+    posicao = calculaHash(termo);
+    indiceInvertido[posicao].insereFinal(item);
+}
+
+ListaEncadeada IndiceInvertido::Pesquisa(string termo) {
+    int pos;
+    ListaEncadeada item;
+
+    pos = calculaHash(termo);
+    item = indiceInvertido[pos];
+
+    return item;
+}
+
+
 void IndiceInvertido::criaIndice(string nomePastaCorpus, string nomeArquivoStopwords){
+    ProcessadorDeDocumentos processador;
+    tamanhoIndiceInvertido = 0;
+
     for(const auto & arquivo : fs::directory_iterator(nomePastaCorpus)) {
-        ProcessadorDeDocumentos processador;
 
         int tamanhoMaximoVocabulario = processador.processaDocumento(arquivo.path());
+
+        tamanhoIndiceInvertido += tamanhoMaximoVocabulario;
 
         ifstream documento;
         documento.open(arquivo.path());

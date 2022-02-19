@@ -9,13 +9,19 @@
 #define INDICEINVERTIDOH
 
 #include <string>
+#include "termoIndice.hpp"
+#include "listaEncadeada.hpp"
 
 using namespace std;
 
 class IndiceInvertido {
     public:
-        IndiceInvertido() = default;
+        int tamanhoIndiceInvertido;
+        ListaEncadeada* indiceInvertido;
+        IndiceInvertido(tamanho);
         long long calculaHash(string termo);
+        void Insere(string termo, TermoIndice item);
+        ListaEncadeada Pesquisa(string termo);
         void criaIndice(string nomePastaCorpus, string nomeArquivoStopwords);
 };
 

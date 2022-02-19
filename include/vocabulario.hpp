@@ -9,13 +9,9 @@
 #define VOCABULARIOH
 
 #include <string>
+#include "termoVocabulario.hpp"
 
 using namespace std;
-
-struct TermoVocabulario {
-    string termo = "";
-    int frequencia = 0;
-};
 
 class Vocabulario {
     private:
