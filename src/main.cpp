@@ -14,6 +14,7 @@
 #include "indiceInvertido.hpp"
 #include "vocabulario.hpp"
 #include "memlog.hpp"
+#include "processadorDeConsultas.hpp"
 
 using namespace std;
 
@@ -35,15 +36,50 @@ int main(int argc, char ** argv)
     }
     else desativaMemLog();
 
-    int tamanhoMaximoIndice = 0;
+    int tamanhoMaximoIndice;
 
-    ProcessadorDeDocumentos processador;
-    tamanhoMaximoIndice = processador.processaCorpus(opcoes.nomePastaCorpus);
+    ProcessadorDeDocumentos * processador = new ProcessadorDeDocumentos();
+    tamanhoMaximoIndice = processador->processaCorpus(opcoes.nomePastaCorpus);
+    
+    IndiceInvertido * indiceInvertido = new IndiceInvertido(tamanhoMaximoIndice);
+    indiceInvertido->criaIndice(opcoes.nomePastaCorpus, opcoes.nomeArquivoStopwords, processador);
 
-    IndiceInvertido indiceInvertido = IndiceInvertido(tamanhoMaximoIndice);
+    string termo;
+    ProcessadorDeConsultas processadorDeConsultas = ProcessadorDeConsultas(processador->numeroDeDocumentos, indiceInvertido, processador);
+    processadorDeConsultas.calculaNormaDocumentos(opcoes.nomePastaCorpus, opcoes.nomeArquivoStopwords);
+    processadorDeConsultas.processaConsulta(opcoes.nomeArquivoConsultas, opcoes.nomeArquivoStopwords);
 
-    indiceInvertido.criaIndice(opcoes.nomePastaCorpus, opcoes.nomeArquivoStopwords);
 
+
+
+
+
+
+
+
+
+    while (cin){
+        ListaEncadeada * aux = new ListaEncadeada();
+        cin >> termo;
+        indiceInvertido->pesquisa(termo, aux);
+        for (int i = 1; i <= aux->getTamanho(); i++) {
+            cerr << aux->getItem(i).documento << " " << aux->getItem(i).frequencia << endl;
+        }
+    
+    }
+    double contador = 0;
+    for (int i = 0; i < tamanhoMaximoIndice; i++) {
+        if (indiceInvertido->indiceTabela[i].getTamanho() > 0) {
+            contador++;
+        }
+    }
+
+    double porcentagem = contador/tamanhoMaximoIndice;
+
+    cout << "Porcentagem: " << porcentagem * 100 << "%" << endl;
+
+    
+    
     // // abre arquivo de resultado
     // ofstream arquivoSaida;
     // arquivoSaida.open(nomeArquivoSaida);

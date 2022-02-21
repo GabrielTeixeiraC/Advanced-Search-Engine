@@ -9,14 +9,17 @@
 
 #include <iostream>
 #include <string>
+#include <listaEncadeada.hpp>
 using namespace std;
 
 // TermoIndice: guarda o documento de origem de um termo e sua frequencia
 struct TermoIndice {
+    string termo;
     int documento;
     int frequencia;
 
     TermoIndice(){
+        termo = "";
         documento = 0;
         frequencia = 0;
     }

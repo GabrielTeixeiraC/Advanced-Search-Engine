@@ -16,13 +16,14 @@ using namespace std;
 class Vocabulario {
     private:
         int tamanhoVocabulario;
+        string nomeArquivoStopwords;
     public:
         TermoVocabulario* vetorDeTermos;
-        Vocabulario(int tamanhoMaximoVocabulario);
-        void criaVocabularioDocumento(string nomeDocumento, string nomeArquivoStopwords);
+        Vocabulario(int tamanhoMaximoVocabulario, string nomeArquivoStopwords);
+        void criaVocabularioDocumento(string nomeDocumento);
         int posicaoTermoNoVocabulario(string termo);
         void adicionaTermoVocabulario(string termo);
-        bool eStopword(string palavra, string nomeArquivoStopwords);
+        bool eStopword(string palavra);
         int getTamanhoVocabulario();
         void desaloca();
 };

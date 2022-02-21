@@ -17,6 +17,11 @@
 namespace fs = experimental::filesystem;
 using namespace fs;
 
+ProcessadorDeDocumentos::ProcessadorDeDocumentos() {
+    numeroDeDocumentos = 0;
+}
+
+
 int ProcessadorDeDocumentos::contaNumeroDeTermos(string nomeDocumento){
     ifstream documento;
     documento.open(nomeDocumento);
@@ -37,14 +42,17 @@ int ProcessadorDeDocumentos::contaNumeroDeTermos(string nomeDocumento){
 
 int ProcessadorDeDocumentos::processaCorpus(string nomePastaCorpus){
     int tamanhoMaximoIndice = 0;
+    int numeroDeDocumentosCorpus = 0;
 
     for(const auto & arquivo : fs::directory_iterator(nomePastaCorpus)) {
 
         int tamanhoMaximoVocabulario = processaDocumento(arquivo.path());
 
         tamanhoMaximoIndice += tamanhoMaximoVocabulario;
-
+        numeroDeDocumentosCorpus++;
     }
+
+    numeroDeDocumentos = numeroDeDocumentosCorpus;
 
     return tamanhoMaximoIndice; 
 }

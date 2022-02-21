@@ -13,8 +13,10 @@
 using namespace std;
 
 class ProcessadorDeDocumentos {
+    private:
     public:
-        ProcessadorDeDocumentos() = default;
+        int numeroDeDocumentos;
+        ProcessadorDeDocumentos();
         int contaNumeroDeTermos(string nomeDocumento);
         int processaCorpus(string nomePastaCorpus);
         int processaDocumento(string nomeDocumento);

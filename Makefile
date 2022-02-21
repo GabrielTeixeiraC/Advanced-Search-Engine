@@ -15,10 +15,10 @@ SRC = src
 OBJ = obj
 INC = include
 
-OBJS = $(OBJ)/main.o $(OBJ)/opcoesMain.o  $(OBJ)/vocabulario.o $(OBJ)/processadorDeDocumentos.o $(OBJ)/indiceInvertido.o $(OBJ)/listaEncadeada.o $(OBJ)/memlog.o
-HDRS = $(INC)/opcoesMain.hpp $(INC)/vocabulario.hpp $(INC)/processadorDeDocumentos.hpp $(INC)/termoVocabulario.hpp $(INC)/termoIndice.hpp $(INC)/indiceInvertido.hpp $(INC)/listaEncadeada.hpp $(INC)/memlog.hpp
+OBJS = $(OBJ)/main.o $(OBJ)/opcoesMain.o  $(OBJ)/vocabulario.o $(OBJ)/processadorDeDocumentos.o $(OBJ)/indiceInvertido.o $(OBJ)/listaEncadeada.o $(OBJ)/processadorDeConsultas.o $(OBJ)/memlog.o
+HDRS = $(INC)/opcoesMain.hpp $(INC)/vocabulario.hpp $(INC)/processadorDeDocumentos.hpp $(INC)/termoVocabulario.hpp $(INC)/termoIndice.hpp $(INC)/indiceInvertido.hpp $(INC)/listaEncadeada.hpp $(INC)/processadorDeConsultas.hpp $(INC)/memlog.hpp
 
-CXXFLAGS = -c -g -std=c++17 -Wall -I$(INC)
+CXXFLAGS = -c -g -std=c++17 -O2 -Wall -I$(INC)
 
 EXE = $(BIN)/main
 
@@ -44,6 +44,9 @@ $(OBJ)/indiceInvertido.o: $(HDRS) $(SRC)/indiceInvertido.cpp
 
 $(OBJ)/listaEncadeada.o: $(HDRS) $(SRC)/listaEncadeada.cpp
 	$(CXX) $(CXXFLAGS) -o $(OBJ)/listaEncadeada.o $(SRC)/listaEncadeada.cpp
+
+$(OBJ)/processadorDeConsultas.o: $(HDRS) $(SRC)/processadorDeConsultas.cpp
+	$(CXX) $(CXXFLAGS) -o $(OBJ)/processadorDeConsultas.o $(SRC)/processadorDeConsultas.cpp
 
 $(OBJ)/memlog.o: $(HDRS) $(SRC)/memlog.cpp
 	$(CXX) $(CXXFLAGS) -o $(OBJ)/memlog.o $(SRC)/memlog.cpp

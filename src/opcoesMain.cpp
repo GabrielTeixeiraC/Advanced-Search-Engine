@@ -50,7 +50,7 @@ void OpcoesMain::parse_args(int argc, char ** argv)
     while ((comando = getopt(argc, argv, "i:o:c:s:p:l")) != EOF)
         switch(comando) {
             case 'i':
-                nomeArquivoSaida = optarg;
+                nomeArquivoConsultas = optarg;
                 break;
             case 'o':
                 nomeArquivoSaida = optarg;

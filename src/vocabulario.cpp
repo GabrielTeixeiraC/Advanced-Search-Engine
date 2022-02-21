@@ -10,7 +10,8 @@
 #include "msgassert.hpp"
 #include "memlog.hpp"
 
-Vocabulario::Vocabulario(int tamanhoMaximoVocabulario) {
+Vocabulario::Vocabulario(int tamanhoMaximoVocabulario, string nomeArquivoStopwords) {
+    this->nomeArquivoStopwords = nomeArquivoStopwords;
     tamanhoVocabulario = 0;
     vetorDeTermos = new TermoVocabulario[tamanhoMaximoVocabulario];
 }
@@ -47,7 +48,7 @@ int Vocabulario::getTamanhoVocabulario() {
     return tamanhoVocabulario;
 }
 
-bool Vocabulario::eStopword(string palavra, string nomeArquivoStopwords)
+bool Vocabulario::eStopword(string palavra)
 // Descricao: retorna se palavra é stopword ou não
 // Entrada: palavra
 // Saida: bool
@@ -68,10 +69,12 @@ bool Vocabulario::eStopword(string palavra, string nomeArquivoStopwords)
             continue;
         }
     }
+    arquivoDeStopwords.close();
+
     return false;
 }
 
-void Vocabulario::criaVocabularioDocumento(string nomeDocumento, string nomeArquivoStopwords) {
+void Vocabulario::criaVocabularioDocumento(string nomeDocumento) {
     ifstream documento;
     documento.open(nomeDocumento);
     erroAssert(documento.is_open(), "Documento não foi aberto.");
@@ -83,13 +86,14 @@ void Vocabulario::criaVocabularioDocumento(string nomeDocumento, string nomeArqu
             break;
         }
 
-        if (eStopword(termo, nomeArquivoStopwords)) {
+        if (eStopword(termo)) {
             continue;
         }
         else {
             adicionaTermoVocabulario(termo);
         }               
     }
+    
     documento.close();
 
 }
