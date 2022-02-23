@@ -12,7 +12,7 @@
 
 using namespace std;
 
-// construtor da Lista Encadeada
+// construtor da Lista Encadeada de Ocorrencias
 ListaEncadeadaOcorrencia::ListaEncadeadaOcorrencia() {
     primeiro = new CelulaListaOcorrencia();
     ultimo = primeiro;
@@ -35,9 +35,9 @@ int ListaEncadeadaOcorrencia::getTamanho() {
     return tamanho;
 }
 
-// Descricao: retorna a string na posição especificada
+// Descricao: retorna a Ocorrencia na posição especificada
 // Entrada: pos
-// Saida: string
+// Saida: Ocorrencia
 Ocorrencia ListaEncadeadaOcorrencia::getItem(int pos){
     CelulaListaOcorrencia *p;
     p = posiciona(pos, false);
@@ -50,7 +50,7 @@ Ocorrencia ListaEncadeadaOcorrencia::getItem(int pos){
 
 // Descricao: Retorna a Celula da Lista Encadeada na posição especificada ou uma posição antes
 // Entrada: pos, antes
-// Saida: Celula de Lista Encadeada 
+// Saida: Celula de Lista Encadeada de Ocorrencia
 CelulaListaOcorrencia* ListaEncadeadaOcorrencia::posiciona(int pos, bool antes = false){
     CelulaListaOcorrencia *p; 
     int i;
@@ -85,7 +85,7 @@ CelulaListaOcorrencia* ListaEncadeadaOcorrencia::posiciona(int pos, bool antes =
     return p;
 }
 
-// Descricao: insere uma string no final da Lista Encadeada
+// Descricao: insere uma Ocorrencia no final da Lista Encadeada de Ocorrencia
 // Entrada: item
 // Saida: -
 void ListaEncadeadaOcorrencia::insereFinal(Ocorrencia item){
@@ -106,7 +106,7 @@ void ListaEncadeadaOcorrencia::insereFinal(Ocorrencia item){
 }
 
 void ListaEncadeadaOcorrencia::limpa(){
-// Descricao: limpa a Lista Encadeada, permite evitar vazamentos de memória
+// Descricao: limpa a Lista Encadeada de Ocorrencia, permite evitar vazamentos de memória
 // Entrada: -
 // Saida: -
     CelulaListaOcorrencia *p;

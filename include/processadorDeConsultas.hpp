@@ -28,6 +28,7 @@ class ProcessadorDeConsultas {
         void processaConsulta(string nomeArquivoConsulta, string nomeArquivoStopwords);
         void ordenaResultados();
         void imprimeResultados(string nomeArquivoSaida);
+        bool eStopword(string palavra, string nomeArquivoStopwords);
         ~ProcessadorDeConsultas();
 };
 

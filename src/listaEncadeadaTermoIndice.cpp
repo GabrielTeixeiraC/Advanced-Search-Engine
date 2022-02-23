@@ -12,7 +12,7 @@
 
 using namespace std;
 
-// construtor da Lista Encadeada
+// construtor da Lista Encadeada de Termos do Indice
 ListaEncadeadaTermoIndice::ListaEncadeadaTermoIndice() {
     primeiro = new CelulaListaTermoIndice();
     ultimo = primeiro;
@@ -25,19 +25,19 @@ ListaEncadeadaTermoIndice::ListaEncadeadaTermoIndice() {
     leMemLog( (long int) (&primeiro), sizeof(CelulaListaTermoIndice*), 0);
 }
 
-// checa se a Lista Encadeada está vazia
+// checa se a Lista Encadeada de Termos do Indice está vazia
 bool ListaEncadeadaTermoIndice::vazia() {
     return tamanho == 0;
 }
 
-// retorna o tamanho da Lista Encadeada
+// retorna o tamanho da Lista Encadeada de Termos do Indice
 int ListaEncadeadaTermoIndice::getTamanho() {
     return tamanho;
 }
 
-// Descricao: retorna a string na posição especificada
+// Descricao: retorna o TermoIndice na posição especificada
 // Entrada: pos
-// Saida: string
+// Saida: TermoIndice
 TermoIndice ListaEncadeadaTermoIndice::getItem(int pos){
     CelulaListaTermoIndice *p;
     p = posiciona(pos, false);
@@ -48,9 +48,9 @@ TermoIndice ListaEncadeadaTermoIndice::getItem(int pos){
     return p->item;
 }
 
-// Descricao: Retorna a Celula da Lista Encadeada na posição especificada ou uma posição antes
+// Descricao: Retorna a Celula da Lista Encadeada de Termos do Indice na posição especificada ou uma posição antes
 // Entrada: pos, antes
-// Saida: Celula de Lista Encadeada 
+// Saida: Celula de Lista Encadeada de Termos do Indice 
 CelulaListaTermoIndice* ListaEncadeadaTermoIndice::posiciona(int pos, bool antes = false){
     CelulaListaTermoIndice *p; 
     int i;
@@ -85,7 +85,7 @@ CelulaListaTermoIndice* ListaEncadeadaTermoIndice::posiciona(int pos, bool antes
     return p;
 }
 
-// Descricao: insere uma string no final da Lista Encadeada
+// Descricao: insere um TermoIndice no final da Lista Encadeada de Termos do Indice
 // Entrada: item
 // Saida: -
 void ListaEncadeadaTermoIndice::insereFinal(TermoIndice item){
@@ -106,7 +106,7 @@ void ListaEncadeadaTermoIndice::insereFinal(TermoIndice item){
 }
 
 void ListaEncadeadaTermoIndice::limpa(){
-// Descricao: limpa a Lista Encadeada, permite evitar vazamentos de memória
+// Descricao: limpa a Lista Encadeada de Termos do Indice, permite evitar vazamentos de memória
 // Entrada: -
 // Saida: -
     CelulaListaTermoIndice *p;

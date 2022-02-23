@@ -74,9 +74,9 @@ void OpcoesMain::parse_args(int argc, char ** argv)
         }
 
         // verificação de existência dos nomes dos arquivos obrigatórios
-        // erroAssert(nomeArquivoConsultas.length() > 0, "main - Nome do arquivo de consultas tem que ser definido.");
-        // erroAssert(nomeArquivoSaida.length() > 0, "main - Nome do arquivo de saída tem que ser definido.");
+        erroAssert(nomeArquivoConsultas.length() > 0, "main - Nome do arquivo de consultas tem que ser definido.");
+        erroAssert(nomeArquivoSaida.length() > 0, "main - Nome do arquivo de saída tem que ser definido.");
         erroAssert(nomePastaCorpus.length() > 0, "main - Nome da pasta do corpus tem que ser definido.");
         erroAssert(nomeArquivoStopwords.length() > 0, "main - Nome do arquivo de stopwords tem que ser definido.");
-        // erroAssert(nomeArquivoLog.length() > 0, "main - Nome do arquivo de log tem que ser definido.");
+        erroAssert(nomeArquivoLog.length() > 0, "main - Nome do arquivo de log tem que ser definido.");
 }

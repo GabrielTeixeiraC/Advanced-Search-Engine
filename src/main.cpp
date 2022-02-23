@@ -67,6 +67,7 @@ int main(int argc, char ** argv)
     cout << "Imprimindo Resultados." << endl;
     processadorDeConsultas.imprimeResultados(opcoes.nomeArquivoSaida);
 
+    // deleta os objetos alocados dinamicamente
     delete processador;
     delete resultados;
     indiceInvertido->desaloca();
