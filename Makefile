@@ -15,10 +15,10 @@ SRC = src
 OBJ = obj
 INC = include
 
-OBJS = $(OBJ)/main.o $(OBJ)/opcoesMain.o  $(OBJ)/vocabulario.o $(OBJ)/processadorDeDocumentos.o $(OBJ)/indiceInvertido.o $(OBJ)/listaEncadeada.o $(OBJ)/processadorDeConsultas.o $(OBJ)/memlog.o
-HDRS = $(INC)/opcoesMain.hpp $(INC)/vocabulario.hpp $(INC)/processadorDeDocumentos.hpp $(INC)/termoVocabulario.hpp $(INC)/termoIndice.hpp $(INC)/indiceInvertido.hpp $(INC)/listaEncadeada.hpp $(INC)/processadorDeConsultas.hpp $(INC)/memlog.hpp
+OBJS = $(OBJ)/main.o $(OBJ)/opcoesMain.o  $(OBJ)/vocabulario.o $(OBJ)/processadorDeDocumentos.o $(OBJ)/indiceInvertido.o $(OBJ)/listaEncadeadaTermoIndice.o $(OBJ)/listaEncadeadaOcorrencia.o $(OBJ)/processadorDeConsultas.o $(OBJ)/quicksort.o $(OBJ)/memlog.o
+HDRS = $(INC)/opcoesMain.hpp $(INC)/vocabulario.hpp $(INC)/processadorDeDocumentos.hpp $(INC)/termoVocabulario.hpp $(INC)/termoIndice.hpp $(INC)/indiceInvertido.hpp $(INC)/listaEncadeadaTermoIndice.hpp $(INC)/listaEncadeadaOcorrencia.hpp $(INC)/processadorDeConsultas.hpp $(INC)/resultado.hpp $(INC)/quicksort.hpp  $(INC)/memlog.hpp
 
-CXXFLAGS = -c -g -std=c++17 -O2 -Wall -I$(INC)
+CXXFLAGS = -c -g -std=c++17 -Wall -I$(INC)
 
 EXE = $(BIN)/main
 
@@ -42,11 +42,17 @@ $(OBJ)/processadorDeDocumentos.o: $(HDRS) $(SRC)/processadorDeDocumentos.cpp
 $(OBJ)/indiceInvertido.o: $(HDRS) $(SRC)/indiceInvertido.cpp
 	$(CXX) $(CXXFLAGS) -o $(OBJ)/indiceInvertido.o $(SRC)/indiceInvertido.cpp
 
-$(OBJ)/listaEncadeada.o: $(HDRS) $(SRC)/listaEncadeada.cpp
-	$(CXX) $(CXXFLAGS) -o $(OBJ)/listaEncadeada.o $(SRC)/listaEncadeada.cpp
+$(OBJ)/listaEncadeadaTermoIndice.o: $(HDRS) $(SRC)/listaEncadeadaTermoIndice.cpp
+	$(CXX) $(CXXFLAGS) -o $(OBJ)/listaEncadeadaTermoIndice.o $(SRC)/listaEncadeadaTermoIndice.cpp
+
+$(OBJ)/listaEncadeadaOcorrencia.o: $(HDRS) $(SRC)/listaEncadeadaOcorrencia.cpp
+	$(CXX) $(CXXFLAGS) -o $(OBJ)/listaEncadeadaOcorrencia.o $(SRC)/listaEncadeadaOcorrencia.cpp
 
 $(OBJ)/processadorDeConsultas.o: $(HDRS) $(SRC)/processadorDeConsultas.cpp
 	$(CXX) $(CXXFLAGS) -o $(OBJ)/processadorDeConsultas.o $(SRC)/processadorDeConsultas.cpp
+
+$(OBJ)/quicksort.o: $(HDRS) $(SRC)/quicksort.cpp
+	$(CXX) $(CXXFLAGS) -o $(OBJ)/quicksort.o $(SRC)/quicksort.cpp
 
 $(OBJ)/memlog.o: $(HDRS) $(SRC)/memlog.cpp
 	$(CXX) $(CXXFLAGS) -o $(OBJ)/memlog.o $(SRC)/memlog.cpp

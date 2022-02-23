@@ -10,19 +10,25 @@
 #include <iostream>
 #include <string>
 #include "indiceInvertido.hpp"
+#include "quicksort.hpp"
+
 using namespace std;
 
 class ProcessadorDeConsultas {
-private:
-    double * normasDocumentos;
-    int numeroDeDocumentos;
-    IndiceInvertido * indiceInvertido;
-    ProcessadorDeDocumentos * processador;
-    unsigned long maiorIdDocumento;
-public:
-    ProcessadorDeConsultas(int numeroDeDocumentos, IndiceInvertido * indiceInvertido, ProcessadorDeDocumentos * processador);
-    void calculaNormaDocumentos();
-    void processaConsulta(string nomeArquivoConsulta, string nomeArquivoStopwords);
+    private:
+        double * normasDocumentos;
+        int numeroDeDocumentos;
+        IndiceInvertido * indiceInvertido;
+        ProcessadorDeDocumentos * processador;
+        unsigned long maiorIdDocumento;
+        Resultado * resultados;
+    public:
+        ProcessadorDeConsultas(int numeroDeDocumentos, IndiceInvertido * indiceInvertido, ProcessadorDeDocumentos * processador, Resultado * resultados);
+        void calculaNormaDocumentos();
+        void processaConsulta(string nomeArquivoConsulta, string nomeArquivoStopwords);
+        void ordenaResultados();
+        void imprimeResultados(string nomeArquivoSaida);
+        ~ProcessadorDeConsultas();
 };
 
 #endif

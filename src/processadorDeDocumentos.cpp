@@ -19,8 +19,8 @@ using namespace fs;
 
 ProcessadorDeDocumentos::ProcessadorDeDocumentos() {
     numeroDeDocumentos = 0;
+    maiorIdDocumento = 0;
 }
-
 
 int ProcessadorDeDocumentos::contaNumeroDeTermos(string nomeDocumento){
     ifstream documento;
@@ -45,13 +45,18 @@ int ProcessadorDeDocumentos::processaCorpus(string nomePastaCorpus){
     int numeroDeDocumentosCorpus = 0;
 
     for(const auto & arquivo : fs::directory_iterator(nomePastaCorpus)) {
-
+        fs::path caminho = arquivo;
+        int idDocumento = stoul(caminho.stem());
+        if (idDocumento > maiorIdDocumento) {
+            maiorIdDocumento = idDocumento;
+        }
+        
         int tamanhoMaximoVocabulario = processaDocumento(arquivo.path());
 
         tamanhoMaximoIndice += tamanhoMaximoVocabulario;
         numeroDeDocumentosCorpus++;
     }
-
+    
     numeroDeDocumentos = numeroDeDocumentosCorpus;
 
     return tamanhoMaximoIndice; 

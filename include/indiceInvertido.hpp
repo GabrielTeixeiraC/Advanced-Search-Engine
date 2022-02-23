@@ -10,21 +10,24 @@
 
 #include <string>
 #include "termoIndice.hpp"
-#include "listaEncadeada.hpp"
+#include "listaEncadeadaTermoIndice.hpp"
 #include "processadorDeDocumentos.hpp"
 #include "vocabulario.hpp"
+#include "termoIndice.hpp"
+#include "ocorrencia.hpp"
+#include "resultado.hpp"
 using namespace std;
 
 class IndiceInvertido {
     public:
         int tamanhoMaximoIndice;
-        ListaEncadeada * indiceTabela;
+        ListaEncadeadaTermoIndice * indiceTabela;
         IndiceInvertido(int tamanhoMaximoIndice);
         long long calculaHash(string termo);
         long long calculaHash2(string termo);
-        void insere(string termo, TermoIndice item);
-        void pesquisa(string termo, ListaEncadeada * documentos);
-        void criaIndice(string nomePastaCorpus, string nomeArquivoStopwords, ProcessadorDeDocumentos * processador);
+        void insere(string termo, Ocorrencia ocorrencia);
+        void pesquisa(string termo, ListaEncadeadaOcorrencia * documentos);
+        void criaIndice(string nomePastaCorpus, string nomeArquivoStopwords, ProcessadorDeDocumentos * processador, Resultado * resultados);
         void desaloca();
 };
 

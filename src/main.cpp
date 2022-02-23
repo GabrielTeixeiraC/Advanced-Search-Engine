@@ -13,6 +13,7 @@
 #include "processadorDeDocumentos.hpp"
 #include "indiceInvertido.hpp"
 #include "vocabulario.hpp"
+#include "resultado.hpp"
 #include "memlog.hpp"
 #include "processadorDeConsultas.hpp"
 
@@ -23,12 +24,14 @@ int main(int argc, char ** argv)
 // Entrada: argc e argv
 // Saida: int
 {
+    // objeto que avalia a linha de comando
     OpcoesMain opcoes;
 
     // avaliar linha de comando
     opcoes.parse_args(argc, argv);
 
-    // iniciaMemLog((char *) nomeArquivoLog.c_str());
+    // inicia log de acesso à memória
+    iniciaMemLog((char *) opcoes.nomeArquivoLog.c_str());
 
     // ativar registro de acesso
     if (opcoes.regmem == 1){
@@ -39,58 +42,36 @@ int main(int argc, char ** argv)
     int tamanhoMaximoIndice;
 
     ProcessadorDeDocumentos * processador = new ProcessadorDeDocumentos();
+
+    cout << "Processando Corpus." << endl;
     tamanhoMaximoIndice = processador->processaCorpus(opcoes.nomePastaCorpus);
     
-    IndiceInvertido * indiceInvertido = new IndiceInvertido(tamanhoMaximoIndice);
-    indiceInvertido->criaIndice(opcoes.nomePastaCorpus, opcoes.nomeArquivoStopwords, processador);
+    Resultado * resultados = new Resultado[processador->maiorIdDocumento + 1] {};
 
-    string termo;
-    ProcessadorDeConsultas processadorDeConsultas = ProcessadorDeConsultas(processador->numeroDeDocumentos, indiceInvertido, processador);
-    processadorDeConsultas.calculaNormaDocumentos(opcoes.nomePastaCorpus, opcoes.nomeArquivoStopwords);
+    IndiceInvertido * indiceInvertido = new IndiceInvertido(tamanhoMaximoIndice);
+    
+    cout << "Criando Indice Invertido." << endl;
+    indiceInvertido->criaIndice(opcoes.nomePastaCorpus, opcoes.nomeArquivoStopwords, processador, resultados);
+
+    ProcessadorDeConsultas processadorDeConsultas = ProcessadorDeConsultas(processador->numeroDeDocumentos, indiceInvertido, processador, resultados);
+    
+    cout << "Calculando Norma dos Documentos." << endl;
+    processadorDeConsultas.calculaNormaDocumentos();
+    
+    cout << "Processando Consultas." << endl;
     processadorDeConsultas.processaConsulta(opcoes.nomeArquivoConsultas, opcoes.nomeArquivoStopwords);
 
+    cout << "Ordenando Resultados." << endl;
+    processadorDeConsultas.ordenaResultados();
 
+    cout << "Imprimindo Resultados." << endl;
+    processadorDeConsultas.imprimeResultados(opcoes.nomeArquivoSaida);
 
+    delete processador;
+    delete resultados;
+    indiceInvertido->desaloca();
 
-
-
-
-
-
-
-    while (cin){
-        ListaEncadeada * aux = new ListaEncadeada();
-        cin >> termo;
-        indiceInvertido->pesquisa(termo, aux);
-        for (int i = 1; i <= aux->getTamanho(); i++) {
-            cerr << aux->getItem(i).documento << " " << aux->getItem(i).frequencia << endl;
-        }
-    
-    }
-    double contador = 0;
-    for (int i = 0; i < tamanhoMaximoIndice; i++) {
-        if (indiceInvertido->indiceTabela[i].getTamanho() > 0) {
-            contador++;
-        }
-    }
-
-    double porcentagem = contador/tamanhoMaximoIndice;
-
-    cout << "Porcentagem: " << porcentagem * 100 << "%" << endl;
-
-    
-    
-    // // abre arquivo de resultado
-    // ofstream arquivoSaida;
-    // arquivoSaida.open(nomeArquivoSaida);
-    // erroAssert(arquivoSaida.is_open(), "Arquivo de saída não foi aberto.");
-    
-
-
-    // // fecha arquivo de saída
-    // arquivoSaida.close();
-
-    // // conclui registro de acesso
-    // finalizaMemLog();  
+    // conclui registro de acesso
+    finalizaMemLog();  
     return 0;
 }

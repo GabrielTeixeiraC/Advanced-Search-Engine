@@ -13,8 +13,8 @@
 using namespace std;
 
 class ProcessadorDeDocumentos {
-    private:
     public:
+        int maiorIdDocumento;
         int numeroDeDocumentos;
         ProcessadorDeDocumentos();
         int contaNumeroDeTermos(string nomeDocumento);

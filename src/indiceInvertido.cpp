@@ -13,6 +13,7 @@
 #include "processadorDeDocumentos.hpp"
 #include "msgassert.hpp"
 #include "vocabulario.hpp"
+#include "ocorrencia.hpp"
 
 namespace fs = experimental::filesystem;
 using namespace fs;
@@ -20,7 +21,7 @@ using namespace fs;
 IndiceInvertido::IndiceInvertido(int tamanhoMaximoIndice){
     this->tamanhoMaximoIndice = tamanhoMaximoIndice;
 
-    indiceTabela = new ListaEncadeada[tamanhoMaximoIndice];
+    indiceTabela = new ListaEncadeadaTermoIndice[tamanhoMaximoIndice];
 }
 
 
@@ -36,76 +37,83 @@ long long IndiceInvertido::calculaHash(string termo) {
     return valorHash;
 }
 
-void IndiceInvertido::insere(string termo, TermoIndice item) {
+void IndiceInvertido::insere(string termo, Ocorrencia ocorrencia) {
     int posicao;
     long long hash;
     hash = calculaHash(termo);
 
     posicao = hash % tamanhoMaximoIndice;
-    
-    indiceTabela[posicao].insereFinal(item);
+
+    CelulaListaTermoIndice* p = new CelulaListaTermoIndice();
+    p = indiceTabela[posicao].primeiro->prox;
+    for (int i = 0; i < indiceTabela[posicao].getTamanho(); i++) {
+        if (p->item.termo == termo) {    
+            p->item.ocorrencias->insereFinal(ocorrencia);
+            return;
+        }
+        else {
+            p = p->prox;
+        }
+    }
+    TermoIndice aux;
+    aux.termo = termo;
+    aux.ocorrencias->insereFinal(ocorrencia);
+    this->indiceTabela[posicao].insereFinal(aux);
 }
 
-void IndiceInvertido::pesquisa(string termo, ListaEncadeada * documentos) {
+void IndiceInvertido::pesquisa(string termo, ListaEncadeadaOcorrencia * documentos) {
     int posicao;
     long long hash;
-    ListaEncadeada * listaComColisoes = new ListaEncadeada();
-    ListaEncadeada * listaSemColisoes = new ListaEncadeada();
 
     hash = calculaHash(termo);
     posicao = hash % tamanhoMaximoIndice;
+
     if (indiceTabela[posicao].getTamanho() == 0) {
         avisoAssert(indiceTabela[posicao].getTamanho() > 0, "Erro: Palavra não está presente nos documentos.");
     }
     else {
-        listaComColisoes = &(indiceTabela[posicao]);
-        for (int i = 1; i <= listaComColisoes->getTamanho(); i++) {
-            TermoIndice itemCelula;
-            itemCelula = listaComColisoes->getItem(i);
-            if (itemCelula.termo == termo) {
-                listaSemColisoes->insereFinal(itemCelula);
+        CelulaListaTermoIndice * p = new CelulaListaTermoIndice();
+        p = indiceTabela[posicao].primeiro->prox;
+        while (p != NULL) {
+            if (p->item.termo == termo) {
+                *(documentos) = *(p->item.ocorrencias);
+                return;
             }
-            else {
-                continue;
-            }
-        }        
+            p = p->prox;
+        }
+        documentos = new ListaEncadeadaOcorrencia();
+        delete p;
     }
-    *(documentos) = *(listaSemColisoes);
 }
 
-
-void IndiceInvertido::criaIndice(string nomePastaCorpus, string nomeArquivoStopwords, ProcessadorDeDocumentos * processador) {
+void IndiceInvertido::criaIndice(string nomePastaCorpus, string nomeArquivoStopwords, ProcessadorDeDocumentos * processador, Resultado * resultados) {
     for(const auto & arquivo : fs::directory_iterator(nomePastaCorpus)) {
         int tamanhoMaximoVocabularioDocumento;
+        fs::path caminho = arquivo;
         string nomeDocumento = arquivo.path();
+
+        unsigned long idDocumento = stoul(caminho.stem());
+        
+        resultados[idDocumento].id = idDocumento;
+
         tamanhoMaximoVocabularioDocumento = processador->contaNumeroDeTermos(nomeDocumento);
         Vocabulario vocabulario = Vocabulario(tamanhoMaximoVocabularioDocumento, nomeArquivoStopwords);
   
         vocabulario.criaVocabularioDocumento(nomeDocumento);
-        // regex para identificar nome do arquivo 
-        // matches: [0] = nome do arquivo inteiro, [1] = /xxxx/xxxx (caminho), [2] = .xxx (extensão)
-
-        smatch matches;
-        regex regexNomeDoArquivo(".*\\/([0-9]*)\\.[a-z]*");
-        regex_match(nomeDocumento, matches, regexNomeDoArquivo);
-        unsigned long idDocumento = stoul(matches[1]);
 
         for (int i = 0; i < vocabulario.getTamanhoVocabulario(); i++){
-            TermoIndice aux;
             string termo = vocabulario.vetorDeTermos[i].termo;
-
-            aux.termo = termo;
-            aux.documento = idDocumento;
-            aux.frequencia = vocabulario.vetorDeTermos[i].frequencia;
-
-            this->insere(termo, aux);
+            
+            Ocorrencia ocorrencia;
+            
+            ocorrencia.documento = idDocumento;
+            ocorrencia.frequencia = vocabulario.vetorDeTermos[i].frequencia;
+            
+            this->insere(termo, ocorrencia);
         }
+        
+        vocabulario.desaloca();
 
-        // cout << "Documento " << idDocumento << endl;
-        // for (int i = 0; i < vocabulario.getTamanhoVocabulario(); i++){
-        //     cout << vocabulario.vetorDeTermos[i].termo << " " << vocabulario.vetorDeTermos[i].frequencia << endl;
-        // }
-        // cout << "-----------------------------" << endl;
     }
 }
 
