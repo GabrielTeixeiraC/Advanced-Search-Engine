@@ -9,6 +9,7 @@
 #include <fstream>
 #include <math.h>
 #include <iomanip>
+#include "memlog.hpp"
 #include "processadorDeConsultas.hpp"
 #include "processadorDeDocumentos.hpp"
 #include "indiceInvertido.hpp"
@@ -42,26 +43,55 @@ void ProcessadorDeConsultas::calculaNormaDocumentos()
     // percorre o indice invertido, calculando a norma dos documentos para normalizar os resultados
     for (int i = 0; i < indiceInvertido->tamanhoMaximoIndice; i++) {
         CelulaListaTermoIndice * pti = new CelulaListaTermoIndice();
+        escreveMemLog( (long int) (&pti), sizeof(CelulaListaTermoIndice *), 0);
+
         pti = indiceInvertido->indiceTabela[i].primeiro->prox;
+        escreveMemLog( (long int) (&pti), sizeof(CelulaListaTermoIndice *), 0);
+        leMemLog( (long int) (&indiceInvertido->indiceTabela[i].primeiro->prox), sizeof(CelulaListaTermoIndice *), 0);
 
         while (pti != NULL) {
             CelulaListaOcorrencia * po = new CelulaListaOcorrencia();
+            escreveMemLog( (long int) (&po), sizeof(CelulaListaOcorrencia *), 0);
+
             po = pti->item.ocorrencias->primeiro->prox;
+            escreveMemLog( (long int) (&po), sizeof(CelulaListaOcorrencia *), 0);
+            leMemLog( (long int) (&pti->item.ocorrencias->primeiro->prox), sizeof(CelulaListaOcorrencia *), 0);
 
             while (po != NULL) {
                 int documento = po->item.documento;
-                
+                escreveMemLog( (long int) (&documento), sizeof(int), 0);
+                leMemLog( (long int) (&po->item.documento), sizeof(int), 0);
+
                 // calcula tf x idf
                 double tf = po->item.frequencia;
+                escreveMemLog( (long int) (&tf), sizeof(double), 5);
+                leMemLog( (long int) (&po->item.frequencia), sizeof(tf), 0);
+
                 double idf = log(numeroDeDocumentos / pti->item.ocorrencias->getTamanho());
+                escreveMemLog( (long int) (&idf), sizeof(double), 5);
+                leMemLog( (long int) (&numeroDeDocumentos), sizeof(double), 5);
+                leMemLog( (long int) (&pti->item.ocorrencias), sizeof(double), 5);
+
                 double tfidf = tf * idf;
-                
+                escreveMemLog( (long int) (&tfidf), sizeof(double), 5);
+                leMemLog( (long int) (&tf), sizeof(double), 5);
+                leMemLog( (long int) (&idf), sizeof(double), 5);
+        
                 // soma tf x idf ao quadrado nas normas dos documentos 
                 normasDocumentos[documento] += tfidf * tfidf;
+                escreveMemLog( (long int) (&normasDocumentos[documento]), sizeof(double), 5);
+                leMemLog( (long int) (&tfidf), sizeof(double), 5);
+
                 po = po->prox;
+                escreveMemLog( (long int) (&po), sizeof(CelulaListaOcorrencia *), 0);
+                leMemLog( (long int) (&po->prox), sizeof(CelulaListaOcorrencia *), 0);
+
             }
 
             pti = pti->prox;
+            escreveMemLog( (long int) (&po), sizeof(CelulaListaOcorrencia *), 0);
+            leMemLog( (long int) (&pti->prox), sizeof(CelulaListaOcorrencia *), 0);
+
             delete po;
         }   
 
@@ -71,6 +101,8 @@ void ProcessadorDeConsultas::calculaNormaDocumentos()
     // tira a raiz quadrada dos valores das normas de documentos
     for (unsigned int i = 0; i <= maiorIdDocumento; i++) {
         normasDocumentos[i] = sqrt(normasDocumentos[i]);
+        escreveMemLog( (long int) (&normasDocumentos[i]), sizeof(double), 5);
+        leMemLog( (long int) (&normasDocumentos[i]), sizeof(double), 5);
     }
 
 }
@@ -105,26 +137,52 @@ void ProcessadorDeConsultas::processaConsulta(string nomeArquivoConsulta, string
 
         // pesquisa as ocorrencias do termo
         ListaEncadeadaOcorrencia * documentos = new ListaEncadeadaOcorrencia();
+        escreveMemLog( (long int) (&documentos), sizeof(ListaEncadeadaOcorrencia *), 0);
+
         indiceInvertido->pesquisa(termo, documentos);   
         double idf;
 
         CelulaListaOcorrencia * p = new CelulaListaOcorrencia();
+        escreveMemLog( (long int) (&p), sizeof(CelulaListaOcorrencia *), 0);
+      
         p = documentos->primeiro->prox;
+        escreveMemLog( (long int) (&p), sizeof(CelulaListaOcorrencia *), 0);
+        leMemLog( (long int) (&documentos->primeiro->prox), sizeof(CelulaListaOcorrencia *), 0);
 
         // calcula tf x idf e soma no vetor de resultados
         if (documentos->getTamanho() > 0) {
             while (p != NULL) {
                 Ocorrencia ocorrencia = p->item;
+                escreveMemLog( (long int) (&ocorrencia), sizeof(Ocorrencia), 0);
+                leMemLog( (long int) (&p->item), sizeof(Ocorrencia), 0);
+
                 idf = log(numeroDeDocumentos/documentos->getTamanho());
+                escreveMemLog( (long int) (&idf), sizeof(double), 5);
+                leMemLog( (long int) (&numeroDeDocumentos), sizeof(double), 5);
+                leMemLog( (long int) (&documentos), sizeof(double), 5);
+
                 int tf;
                 tf = p->item.frequencia;
-                
+                escreveMemLog( (long int) (&tf), sizeof(int), 0);
+                leMemLog( (long int) (&p->item.frequencia), sizeof(int), 0);
+
                 int idDocumento;
                 idDocumento = ocorrencia.documento;
+                escreveMemLog( (long int) (&idDocumento), sizeof(int), 0);
+                leMemLog( (long int) (&ocorrencia.documento), sizeof(int), 0);
 
                 resultados[idDocumento].resultado += tf * idf;
+                escreveMemLog( (long int) (&resultados[idDocumento].resultado), sizeof(double), 5);
+                leMemLog( (long int) (&tf), sizeof(double), 5);
+                leMemLog( (long int) (&idf), sizeof(double), 5);
+
                 resultados[idDocumento].id = idDocumento; 
+                escreveMemLog( (long int) (&resultados[idDocumento].id), sizeof(int), 0);
+                leMemLog( (long int) (&idDocumento), sizeof(int), 0);
+                
                 p = p->prox;
+                escreveMemLog( (long int) (&p), sizeof(CelulaListaOcorrencia *), 0);
+                leMemLog( (long int) (&p->prox), sizeof(CelulaListaOcorrencia *), 0);
             }
             somou = true;
         }
@@ -143,6 +201,8 @@ void ProcessadorDeConsultas::processaConsulta(string nomeArquivoConsulta, string
             continue;
         }
         resultados[i].resultado /= normasDocumentos[i];
+        escreveMemLog( (long int) (&resultados[i].resultado), sizeof(double), 5);
+        leMemLog( (long int) (&normasDocumentos[i]), sizeof(double), 5);
     }
     
     avisoAssert(somou, "Nenhum termo foi achado.");
@@ -212,6 +272,8 @@ void ProcessadorDeConsultas::imprimeResultados(string nomeArquivoSaida)
             continue;
         }        
         arquivoSaida << resultados[i].id << " ";
+        leMemLog( (long int) (&resultados[i].id), sizeof(string), 0);
+
         numeroDeImpressoes--;
         if (numeroDeImpressoes == 0) {
             break;

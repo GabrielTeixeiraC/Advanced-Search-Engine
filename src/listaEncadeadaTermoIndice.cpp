@@ -20,9 +20,9 @@ ListaEncadeadaTermoIndice::ListaEncadeadaTermoIndice() {
     tamanho = 0;
 
     // registra acesso à memória
-    escreveMemLog( (long int) (&primeiro), sizeof(CelulaListaTermoIndice*), 0);
-    escreveMemLog( (long int) (&ultimo), sizeof(CelulaListaTermoIndice*), 0);
-    leMemLog( (long int) (&primeiro), sizeof(CelulaListaTermoIndice*), 0);
+    escreveMemLog( (long int) (&primeiro), sizeof(CelulaListaTermoIndice*), 4);
+    escreveMemLog( (long int) (&ultimo), sizeof(CelulaListaTermoIndice*), 4);
+    leMemLog( (long int) (&primeiro), sizeof(CelulaListaTermoIndice*), 4);
 }
 
 // checa se a Lista Encadeada de Termos do Indice está vazia
@@ -43,7 +43,7 @@ TermoIndice ListaEncadeadaTermoIndice::getItem(int pos){
     p = posiciona(pos, false);
 
     // registra acesso à memoria
-    escreveMemLog( (long int) (&p), sizeof(CelulaListaTermoIndice*), 0);
+    escreveMemLog( (long int) (&p), sizeof(CelulaListaTermoIndice*), 4);
 
     return p->item;
 }
@@ -65,8 +65,8 @@ CelulaListaTermoIndice* ListaEncadeadaTermoIndice::posiciona(int pos, bool antes
         p = p->prox;
 
         // registra acesso à memoria
-        escreveMemLog( (long int) (&p), sizeof(CelulaListaTermoIndice*), 0);
-        leMemLog( (long int) (&p->prox), sizeof(CelulaListaTermoIndice*), 0);
+        escreveMemLog( (long int) (&p), sizeof(CelulaListaTermoIndice*), 4);
+        leMemLog( (long int) (&p->prox), sizeof(CelulaListaTermoIndice*), 4);
     }
 
     // vai para a próxima se antes for false
@@ -74,13 +74,13 @@ CelulaListaTermoIndice* ListaEncadeadaTermoIndice::posiciona(int pos, bool antes
         p = p->prox;
 
         // registra acesso à memoria
-        escreveMemLog( (long int) (&p), sizeof(CelulaListaTermoIndice*), 0);
-        leMemLog( (long int) (&p->prox), sizeof(CelulaListaTermoIndice*), 0);        
+        escreveMemLog( (long int) (&p), sizeof(CelulaListaTermoIndice*), 4);
+        leMemLog( (long int) (&p->prox), sizeof(CelulaListaTermoIndice*), 4);        
     }
 
     // registra acesso à memoria
-    escreveMemLog( (long int) (&p), sizeof(CelulaListaTermoIndice*), 0);
-    leMemLog( (long int) (&primeiro), sizeof(CelulaListaTermoIndice*), 0);
+    escreveMemLog( (long int) (&p), sizeof(CelulaListaTermoIndice*), 4);
+    leMemLog( (long int) (&primeiro), sizeof(CelulaListaTermoIndice*), 4);
 
     return p;
 }
@@ -97,12 +97,12 @@ void ListaEncadeadaTermoIndice::insereFinal(TermoIndice item){
     tamanho++;
 
     // registra acesso à memoria
-    escreveMemLog( (long int) (&nova), sizeof(CelulaListaTermoIndice*), 0);
+    escreveMemLog( (long int) (&nova), sizeof(CelulaListaTermoIndice*), 4);
     escreveMemLog( (long int) (&nova->item), sizeof(string), 0);
-    escreveMemLog( (long int) (&ultimo->prox), sizeof(CelulaListaTermoIndice*), 0);
-    leMemLog( (long int) (&nova), sizeof(CelulaListaTermoIndice*), 0);
-    escreveMemLog( (long int) (&ultimo), sizeof(CelulaListaTermoIndice*), 0);
-    leMemLog( (long int) (&nova), sizeof(CelulaListaTermoIndice*), 0);
+    escreveMemLog( (long int) (&ultimo->prox), sizeof(CelulaListaTermoIndice*), 4);
+    leMemLog( (long int) (&nova), sizeof(CelulaListaTermoIndice*), 4);
+    escreveMemLog( (long int) (&ultimo), sizeof(CelulaListaTermoIndice*), 4);
+    leMemLog( (long int) (&nova), sizeof(CelulaListaTermoIndice*), 4);
 }
 
 void ListaEncadeadaTermoIndice::limpa(){
@@ -113,26 +113,26 @@ void ListaEncadeadaTermoIndice::limpa(){
     p = primeiro->prox;
 
     // registra acesso à memoria
-    escreveMemLog( (long int) (&p), sizeof(CelulaListaTermoIndice*), 0);
-    leMemLog( (long int) (&primeiro->prox), sizeof(CelulaListaTermoIndice*), 0);
+    escreveMemLog( (long int) (&p), sizeof(CelulaListaTermoIndice*), 4);
+    leMemLog( (long int) (&primeiro->prox), sizeof(CelulaListaTermoIndice*), 4);
 
     while (p!=NULL) {
         primeiro->prox = p->prox;
 
         // registra acesso à memoria
-        escreveMemLog( (long int) (&primeiro->prox), sizeof(CelulaListaTermoIndice*), 0);
-        leMemLog( (long int) (&p->prox), sizeof(CelulaListaTermoIndice*), 0);        
+        escreveMemLog( (long int) (&primeiro->prox), sizeof(CelulaListaTermoIndice*), 4);
+        leMemLog( (long int) (&p->prox), sizeof(CelulaListaTermoIndice*), 4);        
         
         delete p;
         p = NULL;
         p = primeiro->prox;
 
-        escreveMemLog( (long int) (&p), sizeof(CelulaListaTermoIndice*), 0);
-        leMemLog( (long int) (&primeiro->prox), sizeof(CelulaListaTermoIndice*), 0);
+        escreveMemLog( (long int) (&p), sizeof(CelulaListaTermoIndice*), 4);
+        leMemLog( (long int) (&primeiro->prox), sizeof(CelulaListaTermoIndice*), 4);
     }
     ultimo = primeiro;
     tamanho = 0;
 
-    escreveMemLog( (long int) (&ultimo), sizeof(CelulaListaTermoIndice*), 0);
-    leMemLog( (long int) (&primeiro), sizeof(CelulaListaTermoIndice*), 0);
+    escreveMemLog( (long int) (&ultimo), sizeof(CelulaListaTermoIndice*), 4);
+    leMemLog( (long int) (&primeiro), sizeof(CelulaListaTermoIndice*), 4);
 }

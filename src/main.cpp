@@ -42,18 +42,23 @@ int main(int argc, char ** argv)
     int tamanhoMaximoIndice;
 
     ProcessadorDeDocumentos * processador = new ProcessadorDeDocumentos();
+    escreveMemLog( (long int) (&processador), sizeof(ProcessadorDeDocumentos *), 7);
 
     cout << "Processando Corpus." << endl;
     tamanhoMaximoIndice = processador->processaCorpus(opcoes.nomePastaCorpus);
-    
+    escreveMemLog( (long int) (&tamanhoMaximoIndice), sizeof(int), 7);
+
     Resultado * resultados = new Resultado[processador->maiorIdDocumento + 1] {};
+    escreveMemLog( (long int) (&resultados), sizeof(Resultado *), 7);
 
     IndiceInvertido * indiceInvertido = new IndiceInvertido(tamanhoMaximoIndice);
-    
+    escreveMemLog( (long int) (&indiceInvertido), sizeof(IndiceInvertido *), 7);
+
     cout << "Criando Indice Invertido." << endl;
     indiceInvertido->criaIndice(opcoes.nomePastaCorpus, opcoes.nomeArquivoStopwords, processador, resultados);
 
     ProcessadorDeConsultas processadorDeConsultas = ProcessadorDeConsultas(processador->numeroDeDocumentos, indiceInvertido, processador, resultados);
+    escreveMemLog( (long int) (&processadorDeConsultas), sizeof(int), 7);
     
     cout << "Calculando Norma dos Documentos." << endl;
     processadorDeConsultas.calculaNormaDocumentos();

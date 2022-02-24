@@ -50,6 +50,7 @@ void Vocabulario::adicionaTermoVocabulario(string termo)
 {
     // acha a posicao do termo no vocabulario
     int posicaoTermo = posicaoTermoNoVocabulario(termo);
+    escreveMemLog( (long int) (&posicaoTermo), sizeof(int), 1);
 
     // se o termo está no vocabulario, aumenta sua frequencia
     if (posicaoTermo >= 0) {
@@ -58,7 +59,13 @@ void Vocabulario::adicionaTermoVocabulario(string termo)
     // senao, coloca o termo no final do vocabulario e aumenta sua frequencia
     else {
         vetorDeTermos[tamanhoVocabulario].termo = termo;
+        escreveMemLog( (long int) (&vetorDeTermos[tamanhoVocabulario].termo), sizeof(string), 1);
+        leMemLog( (long int) (&vetorDeTermos[tamanhoVocabulario].termo), sizeof(string), 1);
+
         vetorDeTermos[tamanhoVocabulario].frequencia++;
+        escreveMemLog( (long int) (&vetorDeTermos[tamanhoVocabulario].frequencia), sizeof(int), 1);
+        leMemLog( (long int) (&vetorDeTermos[tamanhoVocabulario].frequencia), sizeof(int), 1);
+
         tamanhoVocabulario++;
     }
 }

@@ -20,9 +20,9 @@ ListaEncadeadaOcorrencia::ListaEncadeadaOcorrencia() {
     tamanho = 0;
 
     // registra acesso à memória
-    escreveMemLog( (long int) (&primeiro), sizeof(CelulaListaOcorrencia*), 0);
-    escreveMemLog( (long int) (&ultimo), sizeof(CelulaListaOcorrencia*), 0);
-    leMemLog( (long int) (&primeiro), sizeof(CelulaListaOcorrencia*), 0);
+    escreveMemLog( (long int) (&primeiro), sizeof(CelulaListaOcorrencia*), 3);
+    escreveMemLog( (long int) (&ultimo), sizeof(CelulaListaOcorrencia*), 3);
+    leMemLog( (long int) (&primeiro), sizeof(CelulaListaOcorrencia*), 3);
 }
 
 // checa se a Lista Encadeada está vazia
@@ -43,7 +43,7 @@ Ocorrencia ListaEncadeadaOcorrencia::getItem(int pos){
     p = posiciona(pos, false);
 
     // registra acesso à memoria
-    escreveMemLog( (long int) (&p), sizeof(CelulaListaOcorrencia*), 0);
+    escreveMemLog( (long int) (&p), sizeof(CelulaListaOcorrencia*), 3);
 
     return p->item;
 }
@@ -65,8 +65,8 @@ CelulaListaOcorrencia* ListaEncadeadaOcorrencia::posiciona(int pos, bool antes =
         p = p->prox;
 
         // registra acesso à memoria
-        escreveMemLog( (long int) (&p), sizeof(CelulaListaOcorrencia*), 0);
-        leMemLog( (long int) (&p->prox), sizeof(CelulaListaOcorrencia*), 0);
+        escreveMemLog( (long int) (&p), sizeof(CelulaListaOcorrencia*), 3);
+        leMemLog( (long int) (&p->prox), sizeof(CelulaListaOcorrencia*), 3);
     }
 
     // vai para a próxima se antes for false
@@ -74,13 +74,13 @@ CelulaListaOcorrencia* ListaEncadeadaOcorrencia::posiciona(int pos, bool antes =
         p = p->prox;
 
         // registra acesso à memoria
-        escreveMemLog( (long int) (&p), sizeof(CelulaListaOcorrencia*), 0);
-        leMemLog( (long int) (&p->prox), sizeof(CelulaListaOcorrencia*), 0);        
+        escreveMemLog( (long int) (&p), sizeof(CelulaListaOcorrencia*), 3);
+        leMemLog( (long int) (&p->prox), sizeof(CelulaListaOcorrencia*), 3);        
     }
 
     // registra acesso à memoria
-    escreveMemLog( (long int) (&p), sizeof(CelulaListaOcorrencia*), 0);
-    leMemLog( (long int) (&primeiro), sizeof(CelulaListaOcorrencia*), 0);
+    escreveMemLog( (long int) (&p), sizeof(CelulaListaOcorrencia*), 3);
+    leMemLog( (long int) (&primeiro), sizeof(CelulaListaOcorrencia*), 3);
 
     return p;
 }
@@ -97,12 +97,12 @@ void ListaEncadeadaOcorrencia::insereFinal(Ocorrencia item){
     tamanho++;
 
     // registra acesso à memoria
-    escreveMemLog( (long int) (&nova), sizeof(CelulaListaOcorrencia*), 0);
+    escreveMemLog( (long int) (&nova), sizeof(CelulaListaOcorrencia*), 3);
     escreveMemLog( (long int) (&nova->item), sizeof(string), 0);
-    escreveMemLog( (long int) (&ultimo->prox), sizeof(CelulaListaOcorrencia*), 0);
-    leMemLog( (long int) (&nova), sizeof(CelulaListaOcorrencia*), 0);
-    escreveMemLog( (long int) (&ultimo), sizeof(CelulaListaOcorrencia*), 0);
-    leMemLog( (long int) (&nova), sizeof(CelulaListaOcorrencia*), 0);
+    escreveMemLog( (long int) (&ultimo->prox), sizeof(CelulaListaOcorrencia*), 3);
+    leMemLog( (long int) (&nova), sizeof(CelulaListaOcorrencia*), 3);
+    escreveMemLog( (long int) (&ultimo), sizeof(CelulaListaOcorrencia*), 3);
+    leMemLog( (long int) (&nova), sizeof(CelulaListaOcorrencia*), 3);
 }
 
 void ListaEncadeadaOcorrencia::limpa(){
@@ -113,26 +113,26 @@ void ListaEncadeadaOcorrencia::limpa(){
     p = primeiro->prox;
 
     // registra acesso à memoria
-    escreveMemLog( (long int) (&p), sizeof(CelulaListaOcorrencia*), 0);
-    leMemLog( (long int) (&primeiro->prox), sizeof(CelulaListaOcorrencia*), 0);
+    escreveMemLog( (long int) (&p), sizeof(CelulaListaOcorrencia*), 3);
+    leMemLog( (long int) (&primeiro->prox), sizeof(CelulaListaOcorrencia*), 3);
 
     while (p!=NULL) {
         primeiro->prox = p->prox;
 
         // registra acesso à memoria
-        escreveMemLog( (long int) (&primeiro->prox), sizeof(CelulaListaOcorrencia*), 0);
-        leMemLog( (long int) (&p->prox), sizeof(CelulaListaOcorrencia*), 0);        
+        escreveMemLog( (long int) (&primeiro->prox), sizeof(CelulaListaOcorrencia*), 3);
+        leMemLog( (long int) (&p->prox), sizeof(CelulaListaOcorrencia*), 3);        
         
         delete p;
         p = NULL;
         p = primeiro->prox;
 
-        escreveMemLog( (long int) (&p), sizeof(CelulaListaOcorrencia*), 0);
-        leMemLog( (long int) (&primeiro->prox), sizeof(CelulaListaOcorrencia*), 0);
+        escreveMemLog( (long int) (&p), sizeof(CelulaListaOcorrencia*), 3);
+        leMemLog( (long int) (&primeiro->prox), sizeof(CelulaListaOcorrencia*), 3);
     }
     ultimo = primeiro;
     tamanho = 0;
 
-    escreveMemLog( (long int) (&ultimo), sizeof(CelulaListaOcorrencia*), 0);
-    leMemLog( (long int) (&primeiro), sizeof(CelulaListaOcorrencia*), 0);
+    escreveMemLog( (long int) (&ultimo), sizeof(CelulaListaOcorrencia*), 3);
+    leMemLog( (long int) (&primeiro), sizeof(CelulaListaOcorrencia*), 3);
 }

@@ -71,6 +71,8 @@ int ProcessadorDeDocumentos::processaCorpus(string nomePastaCorpus)
         
         // processa o documento e aumenta o tamanho maximo do indice
         int tamanhoMaximoVocabulario = processaDocumento(arquivo.path());
+        escreveMemLog( (long int) (&tamanhoMaximoVocabulario), sizeof(int), 0);
+
         tamanhoMaximoIndice += tamanhoMaximoVocabulario;
         numeroDeDocumentosCorpus++;
     }
@@ -121,17 +123,24 @@ int ProcessadorDeDocumentos::processaDocumento(string nomeDocumento)
         for (long unsigned int i = 0; i < termo.size(); i++){
             if(!isalpha(termo[i])) {
                 if(termo[i] == '\\' and termo[i + 1] == 'n') {
-                    termo.replace(termo.begin() + i, termo.begin() + i + 2, " ");
+                    termo[i] = ' ';
+                    termo[i + 1] = ' ';
+                    escreveMemLog( (long int) (&termo[i]), sizeof(char), 0);
+                    escreveMemLog( (long int) (&termo[i + 1]), sizeof(char), 0);
+
                     contadorDeTermos++;
                 }
                 else{
-                    termo.replace(termo.begin() + i, termo.begin() + i + 1, " ");
+                    termo[i] = ' ';
+                    escreveMemLog( (long int) (&termo[i]), sizeof(char), 0);
                 }
             }
             else if(isalpha(termo[i])) {
                 termo[i] = tolower(termo[i]);
+                escreveMemLog( (long int) (&termo[i]), sizeof(char), 0);
             }
         }
+
         documentoProcessado << termo << " ";   
         contadorDeTermos++;
     }

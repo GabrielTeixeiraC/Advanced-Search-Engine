@@ -26,53 +26,53 @@ void QuickSort::Particao(int Esq, int Dir, int *i, int *j, Resultado * resultado
     // define o pivô como a mediana entre os valores nas extremidades e o valor
     // no meio do intervalo, evitando o pior caso do QuickSort
     esquerda = resultados[*i];
-    leMemLog( (long int) (&resultados[*i]), sizeof(Resultado), 0);
-    escreveMemLog( (long int) (&esquerda), sizeof(Resultado), 0);
+    leMemLog( (long int) (&resultados[*i]), sizeof(Resultado), 2);
+    escreveMemLog( (long int) (&esquerda), sizeof(Resultado), 2);
 
     meio = resultados[(*i + *j)/2];
-    leMemLog( (long int) (&resultados[(*i + *j)/2]), sizeof(Resultado), 0);
-    escreveMemLog( (long int) (&meio), sizeof(Resultado), 0);
+    leMemLog( (long int) (&resultados[(*i + *j)/2]), sizeof(Resultado), 2);
+    escreveMemLog( (long int) (&meio), sizeof(Resultado), 2);
 
     direita = resultados[*j];
-    leMemLog( (long int) (&resultados[*j]), sizeof(Resultado), 0);
-    escreveMemLog( (long int) (&direita), sizeof(Resultado), 0);
+    leMemLog( (long int) (&resultados[*j]), sizeof(Resultado), 2);
+    escreveMemLog( (long int) (&direita), sizeof(Resultado), 2);
     
     if(esquerda.resultado >= meio.resultado && esquerda.resultado >= direita.resultado) {
         if(meio.resultado >= direita.resultado) {
             pivo = meio;
-            leMemLog( (long int) (&meio), sizeof(Resultado), 0);
-            escreveMemLog( (long int) (&pivo), sizeof(Resultado), 0);
+            leMemLog( (long int) (&meio), sizeof(Resultado), 2);
+            escreveMemLog( (long int) (&pivo), sizeof(Resultado), 2);
         } 
         else {
             pivo = direita;
-            leMemLog( (long int) (&direita), sizeof(Resultado), 0);
-            escreveMemLog( (long int) (&pivo), sizeof(Resultado), 0);
+            leMemLog( (long int) (&direita), sizeof(Resultado), 2);
+            escreveMemLog( (long int) (&pivo), sizeof(Resultado), 2);
         } 
     }
     else if(meio.resultado >= esquerda.resultado && meio.resultado >= direita.resultado) {
         if(esquerda.resultado >= direita.resultado) {
             pivo = esquerda;
-            leMemLog( (long int) (&esquerda), sizeof(Resultado), 0);
-            escreveMemLog( (long int) (&pivo), sizeof(Resultado), 0);
+            leMemLog( (long int) (&esquerda), sizeof(Resultado), 2);
+            escreveMemLog( (long int) (&pivo), sizeof(Resultado), 2);
         } 
         else {
             pivo = direita;
-            leMemLog( (long int) (&direita), sizeof(Resultado), 0);
-            escreveMemLog( (long int) (&pivo), sizeof(Resultado), 0);
+            leMemLog( (long int) (&direita), sizeof(Resultado), 2);
+            escreveMemLog( (long int) (&pivo), sizeof(Resultado), 2);
         } 
     }
     else {
         if(esquerda.resultado >= meio.resultado) {
             pivo = esquerda;
 
-            leMemLog( (long int) (&esquerda), sizeof(Resultado), 0);
-            escreveMemLog( (long int) (&pivo), sizeof(Resultado), 0);
+            leMemLog( (long int) (&esquerda), sizeof(Resultado), 2);
+            escreveMemLog( (long int) (&pivo), sizeof(Resultado), 2);
         } 
         else {
             pivo = meio;
 
-            leMemLog( (long int) (&meio), sizeof(Resultado), 0);
-            escreveMemLog( (long int) (&pivo), sizeof(Resultado), 0);
+            leMemLog( (long int) (&meio), sizeof(Resultado), 2);
+            escreveMemLog( (long int) (&pivo), sizeof(Resultado), 2);
         } 
     }
 
@@ -113,16 +113,16 @@ void QuickSort::Particao(int Esq, int Dir, int *i, int *j, Resultado * resultado
         // troca de lado os elementos identificados pelos loops acima
         if (*i <= *j){
             aux = resultados[*i];
-            leMemLog( (long int) (&resultados[*i]), sizeof(Resultado), 0);
-            escreveMemLog( (long int) (&aux), sizeof(Resultado), 0);
+            leMemLog( (long int) (&resultados[*i]), sizeof(Resultado), 2);
+            escreveMemLog( (long int) (&aux), sizeof(Resultado), 2);
 
             resultados[*i] = resultados[*j];
-            leMemLog( (long int) (&resultados[*j]), sizeof(Resultado), 0);
-            escreveMemLog( (long int) (&resultados[*i]), sizeof(Resultado), 0);
+            leMemLog( (long int) (&resultados[*j]), sizeof(Resultado), 2);
+            escreveMemLog( (long int) (&resultados[*i]), sizeof(Resultado), 2);
 
             resultados[*j] = aux;
-            leMemLog( (long int) (&aux), sizeof(Resultado), 0);
-            escreveMemLog( (long int) (&resultados[*j]), sizeof(Resultado), 0);
+            leMemLog( (long int) (&aux), sizeof(Resultado), 2);
+            escreveMemLog( (long int) (&resultados[*j]), sizeof(Resultado), 2);
 
             (*i)++; 
             (*j)--;
