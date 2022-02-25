@@ -35,56 +35,6 @@ int ListaEncadeadaTermoIndice::getTamanho() {
     return tamanho;
 }
 
-// Descricao: retorna o TermoIndice na posição especificada
-// Entrada: pos
-// Saida: TermoIndice
-TermoIndice ListaEncadeadaTermoIndice::getItem(int pos){
-    CelulaListaTermoIndice *p;
-    p = posiciona(pos, false);
-
-    // registra acesso à memoria
-    escreveMemLog( (long int) (&p), sizeof(CelulaListaTermoIndice*), 4);
-
-    return p->item;
-}
-
-// Descricao: Retorna a Celula da Lista Encadeada de Termos do Indice na posição especificada ou uma posição antes
-// Entrada: pos, antes
-// Saida: Celula de Lista Encadeada de Termos do Indice 
-CelulaListaTermoIndice* ListaEncadeadaTermoIndice::posiciona(int pos, bool antes = false){
-    CelulaListaTermoIndice *p; 
-    int i;
-
-    if ( (pos > tamanho) || (pos <= 0) ){
-        cerr << "ERRO: Posicao Invalida!" << endl;
-    }
-
-    // posiciona na célula anterior a desejada
-    p = primeiro;
-    for(i=1; i<pos; i++){
-        p = p->prox;
-
-        // registra acesso à memoria
-        escreveMemLog( (long int) (&p), sizeof(CelulaListaTermoIndice*), 4);
-        leMemLog( (long int) (&p->prox), sizeof(CelulaListaTermoIndice*), 4);
-    }
-
-    // vai para a próxima se antes for false
-    if(!antes){
-        p = p->prox;
-
-        // registra acesso à memoria
-        escreveMemLog( (long int) (&p), sizeof(CelulaListaTermoIndice*), 4);
-        leMemLog( (long int) (&p->prox), sizeof(CelulaListaTermoIndice*), 4);        
-    }
-
-    // registra acesso à memoria
-    escreveMemLog( (long int) (&p), sizeof(CelulaListaTermoIndice*), 4);
-    leMemLog( (long int) (&primeiro), sizeof(CelulaListaTermoIndice*), 4);
-
-    return p;
-}
-
 // Descricao: insere um TermoIndice no final da Lista Encadeada de Termos do Indice
 // Entrada: item
 // Saida: -

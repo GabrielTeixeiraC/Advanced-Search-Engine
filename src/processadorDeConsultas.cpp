@@ -117,6 +117,7 @@ void ProcessadorDeConsultas::processaConsulta(string nomeArquivoConsulta, string
     arquivoConsultas.open(nomeArquivoConsulta);
     erroAssert(arquivoConsultas.is_open(), "Documento não foi aberto.");
 
+    Vocabulario vocabulario = Vocabulario(0, nomeArquivoStopwords);
     // variavel para saber se alguma palavra foi achada
     bool somou = false;
 
@@ -125,8 +126,9 @@ void ProcessadorDeConsultas::processaConsulta(string nomeArquivoConsulta, string
         string termo;
         arquivoConsultas >> termo;
 
+
         // se o termo consultado for stopword, pula a palavra
-        if (eStopword(termo, nomeArquivoStopwords)) {
+        if (vocabulario.eStopword(termo)) {
             continue;
         }
         
@@ -184,6 +186,7 @@ void ProcessadorDeConsultas::processaConsulta(string nomeArquivoConsulta, string
                 escreveMemLog( (long int) (&p), sizeof(CelulaListaOcorrencia *), 0);
                 leMemLog( (long int) (&p->prox), sizeof(CelulaListaOcorrencia *), 0);
             }
+
             somou = true;
         }
         else {
@@ -208,37 +211,6 @@ void ProcessadorDeConsultas::processaConsulta(string nomeArquivoConsulta, string
     avisoAssert(somou, "Nenhum termo foi achado.");
 
     arquivoConsultas.close();
-}
-
-
-bool ProcessadorDeConsultas::eStopword(string palavra, string nomeArquivoStopwords)
-// Descricao: retorna se palavra é stopword ou não
-// Entrada: palavra
-// Saida: bool
-{
-    // abre arquivo de stopwords
-    ifstream arquivoDeStopwords;
-    arquivoDeStopwords.open(nomeArquivoStopwords);
-    erroAssert(arquivoDeStopwords.is_open(), "Arquivo de stopwords não foi aberto.");
-    
-    // checa se a palavra passada como parametro é uma stopword
-    while (!arquivoDeStopwords.eof()) {
-        string stopword;
-
-        arquivoDeStopwords >> stopword;
-
-        // se achar, retorna true
-        if (stopword == palavra){
-            return true;
-        }
-        else {
-            continue;
-        }
-    }
-    arquivoDeStopwords.close();
-
-    // se não achou, retorna false
-    return false;
 }
 
 void ProcessadorDeConsultas::ordenaResultados() 

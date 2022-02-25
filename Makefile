@@ -18,7 +18,7 @@ INC = include
 OBJS = $(OBJ)/main.o $(OBJ)/opcoesMain.o  $(OBJ)/vocabulario.o $(OBJ)/processadorDeDocumentos.o $(OBJ)/indiceInvertido.o $(OBJ)/listaEncadeadaTermoIndice.o $(OBJ)/listaEncadeadaOcorrencia.o $(OBJ)/processadorDeConsultas.o $(OBJ)/quicksort.o $(OBJ)/memlog.o
 HDRS = $(INC)/opcoesMain.hpp $(INC)/vocabulario.hpp $(INC)/processadorDeDocumentos.hpp $(INC)/termoVocabulario.hpp $(INC)/termoIndice.hpp $(INC)/indiceInvertido.hpp $(INC)/listaEncadeadaTermoIndice.hpp $(INC)/listaEncadeadaOcorrencia.hpp $(INC)/processadorDeConsultas.hpp $(INC)/resultado.hpp $(INC)/quicksort.hpp  $(INC)/memlog.hpp
 
-CXXFLAGS = -c -g -std=c++17 -Wall -I$(INC)
+CXXFLAGS = -c -std=c++17 -Wall -I$(INC)
 
 EXE = $(BIN)/main
 

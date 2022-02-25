@@ -80,7 +80,7 @@ void QuickSort::Particao(int Esq, int Dir, int *i, int *j, Resultado * resultado
     // os elementos menores que o pivô para a sua direita
     do { 
         // para no primeiro elemento à esquerda do pivô que é menor do que ele ou
-        // é igual e possui url >= à do pivô
+        // é igual e possui id >= ao do pivô
         while (resultados[*i].resultado >= pivo.resultado){
             if (resultados[*i].resultado == pivo.resultado){
                 if (resultados[*i].id >= pivo.id){
@@ -95,8 +95,7 @@ void QuickSort::Particao(int Esq, int Dir, int *i, int *j, Resultado * resultado
             }
         }
         // para no primeiro elemento à direita do pivô que é maior do que ele ou
-        // é igual e possui url <= à do pivô
-        // a  b  c  d 
+        // é igual e possui id <= ao do pivô
         while (resultados[*j].resultado <= pivo.resultado) {
             if (resultados[*j].resultado == pivo.resultado){
                 if (resultados[*j].id <= pivo.id){

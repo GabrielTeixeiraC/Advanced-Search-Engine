@@ -24,7 +24,6 @@ class IndiceInvertido {
         ListaEncadeadaTermoIndice * indiceTabela;
         IndiceInvertido(int tamanhoMaximoIndice);
         long long calculaHash(string termo);
-        long long calculaHash2(string termo);
         void insere(string termo, Ocorrencia ocorrencia);
         void pesquisa(string termo, ListaEncadeadaOcorrencia * documentos);
         void criaIndice(string nomePastaCorpus, string nomeArquivoStopwords, ProcessadorDeDocumentos * processador, Resultado * resultados);

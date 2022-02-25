@@ -41,10 +41,10 @@ long long IndiceInvertido::calculaHash(string termo)
     // calcula o hash elevando o primo a uma potencia i, multiplicando pelo numero equivalente à letra e tirando o resto 
     for (long unsigned int i = 0; i < termo.size(); i++) {
         valorHash = (valorHash + (termo[i] - 'a' + 1) * potenciaDoPrimo) % modulo;
-        escreveMemLog( (long int) (&valorHash), sizeof(long long), 0);
+        escreveMemLog( (long int) (&valorHash), sizeof(long long), 6);
 
         potenciaDoPrimo = (potenciaDoPrimo * primo) % modulo;
-        escreveMemLog( (long int) (&potenciaDoPrimo), sizeof(long long), 0);
+        escreveMemLog( (long int) (&potenciaDoPrimo), sizeof(long long), 6);
         
     }
     return valorHash;
@@ -188,8 +188,6 @@ void IndiceInvertido::criaIndice(string nomePastaCorpus, string nomeArquivoStopw
 
             this->insere(termo, ocorrencia);
         }
-        
-        vocabulario.desaloca();
 
     }
 }

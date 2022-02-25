@@ -30,21 +30,13 @@ class ListaEncadeadaOcorrencia {
         ListaEncadeadaOcorrencia();
         bool vazia();
         int getTamanho();
-        Ocorrencia getItem(int pos);
-        void insereInicio(Ocorrencia item);
         void insereFinal(Ocorrencia item);
-        void inserePosicao(Ocorrencia item, int pos);
-        Ocorrencia removeInicio();
-        Ocorrencia removeFinal();
-        Ocorrencia removePosicao(int pos);
-        Ocorrencia pesquisa(string termo);
         void limpa();
         CelulaListaOcorrencia* primeiro;
     
     protected:
         int tamanho;
         CelulaListaOcorrencia* ultimo;
-        CelulaListaOcorrencia* posiciona(int pos, bool antes);
 };
 
 

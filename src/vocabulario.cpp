@@ -95,7 +95,8 @@ bool Vocabulario::eStopword(string palavra)
         arquivoDeStopwords >> stopword;
 
         // se achar, retorna true
-        if (stopword == palavra){
+        if (stopword == palavra) {
+            arquivoDeStopwords.close();
             return true;
         }
         else {

@@ -64,7 +64,7 @@ int ProcessadorDeDocumentos::processaCorpus(string nomePastaCorpus)
         fs::path caminho = arquivo;
         int idDocumento = stoul(caminho.stem());
         
-        // acha o maior id do documento, necessario para iterar sobre os vetores
+            // acha o maior id do documento, necessario para iterar sobre os vetores
         if (idDocumento > maiorIdDocumento) {
             maiorIdDocumento = idDocumento;
         }
@@ -95,20 +95,13 @@ int ProcessadorDeDocumentos::processaDocumento(string nomeDocumento)
 
     int contadorDeTermos = 0;
 
-    // regex para identificar nome do arquivo 
-    // matches: [0] = nome do arquivo inteiro, [1] = .. ou ., [2] = /xxxx/xxxx (caminho), [3] = .xxx (extensão)
-    smatch matches;
-    regex regexNomeDoArquivo("(\\.*)([-\\/A-Za-z0-9]*)(.[a-z]*)");
-    regex_match(nomeDocumento, matches, regexNomeDoArquivo);
-    
-    string pontos = matches[1];
-    string nomeDoArquivoSemExtensao = matches[2];
-    string extensaoDoArquivo = matches[3];
+    string nomeDocumentoSemExtensao = nomeDocumento;
+    nomeDocumentoSemExtensao = nomeDocumentoSemExtensao.substr(0, nomeDocumentoSemExtensao.size() - 4);
 
     string nomeDocumentoProcessado = "";
 
     // adiciona o sufixo PROCESSADO ao nome do arquivo passado como parametro 
-    nomeDocumentoProcessado.append(pontos).append(nomeDoArquivoSemExtensao).append("PROCESSADO").append(extensaoDoArquivo);
+    nomeDocumentoProcessado.append(nomeDocumentoSemExtensao).append("PROCESSADO").append(".txt");
     
     // abre arquivo de saída
     ofstream documentoProcessado;

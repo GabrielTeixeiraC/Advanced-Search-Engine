@@ -31,16 +31,13 @@ class ListaEncadeadaTermoIndice {
         ListaEncadeadaTermoIndice();
         bool vazia();
         int getTamanho();
-        TermoIndice getItem(int pos);
         void insereFinal(TermoIndice item);
-        TermoIndice pesquisa(string termo);
         void limpa();
         CelulaListaTermoIndice* primeiro;
     
     protected:
         int tamanho;
         CelulaListaTermoIndice* ultimo;
-        CelulaListaTermoIndice* posiciona(int pos, bool antes);
 };
 
 

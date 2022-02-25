@@ -40,26 +40,26 @@ int main(int argc, char ** argv)
     else desativaMemLog();
 
     int tamanhoMaximoIndice;
-
+    defineFaseMemLog(0);
     ProcessadorDeDocumentos * processador = new ProcessadorDeDocumentos();
     escreveMemLog( (long int) (&processador), sizeof(ProcessadorDeDocumentos *), 7);
 
-    cout << "Processando Corpus." << endl;
     tamanhoMaximoIndice = processador->processaCorpus(opcoes.nomePastaCorpus);
     escreveMemLog( (long int) (&tamanhoMaximoIndice), sizeof(int), 7);
 
     Resultado * resultados = new Resultado[processador->maiorIdDocumento + 1] {};
     escreveMemLog( (long int) (&resultados), sizeof(Resultado *), 7);
 
+    defineFaseMemLog(1);
     IndiceInvertido * indiceInvertido = new IndiceInvertido(tamanhoMaximoIndice);
     escreveMemLog( (long int) (&indiceInvertido), sizeof(IndiceInvertido *), 7);
-
     cout << "Criando Indice Invertido." << endl;
     indiceInvertido->criaIndice(opcoes.nomePastaCorpus, opcoes.nomeArquivoStopwords, processador, resultados);
 
+    defineFaseMemLog(2);
     ProcessadorDeConsultas processadorDeConsultas = ProcessadorDeConsultas(processador->numeroDeDocumentos, indiceInvertido, processador, resultados);
     escreveMemLog( (long int) (&processadorDeConsultas), sizeof(int), 7);
-    
+
     cout << "Calculando Norma dos Documentos." << endl;
     processadorDeConsultas.calculaNormaDocumentos();
     
@@ -76,8 +76,38 @@ int main(int argc, char ** argv)
     delete processador;
     delete resultados;
     indiceInvertido->desaloca();
+    finalizaMemLog();  
+
+    ifstream arquivoLOG;
+    arquivoLOG.open("./tmp/log.txt");
+    ofstream arquivo;
+    arquivo.open("./tmp/valores.txt",ios_base::app);
+  
+    string I;
+    arquivoLOG >> I;
+    
+    int n1;
+    arquivoLOG >> n1;
+
+    double inicio;
+    arquivoLOG >> inicio;
+
+    string F;
+    arquivoLOG >> F;
+    
+    int n2;
+    arquivoLOG >> n2;
+
+    double fim;
+    arquivoLOG >> fim;
+
+    double total = fim - inicio;
+    if (total > 0.0) {
+        arquivo << total << " ";
+    }
+    arquivoLOG.close();
+    arquivo.close();
 
     // conclui registro de acesso
-    finalizaMemLog();  
     return 0;
 }
