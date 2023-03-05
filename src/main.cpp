@@ -76,38 +76,10 @@ int main(int argc, char ** argv)
     delete processador;
     delete resultados;
     indiceInvertido->desaloca();
-    finalizaMemLog();  
-
-    ifstream arquivoLOG;
-    arquivoLOG.open("./tmp/log.txt");
-    ofstream arquivo;
-    arquivo.open("./tmp/valores.txt",ios_base::app);
-  
-    string I;
-    arquivoLOG >> I;
-    
-    int n1;
-    arquivoLOG >> n1;
-
-    double inicio;
-    arquivoLOG >> inicio;
-
-    string F;
-    arquivoLOG >> F;
-    
-    int n2;
-    arquivoLOG >> n2;
-
-    double fim;
-    arquivoLOG >> fim;
-
-    double total = fim - inicio;
-    if (total > 0.0) {
-        arquivo << total << " ";
-    }
-    arquivoLOG.close();
-    arquivo.close();
+    delete indiceInvertido;
 
     // conclui registro de acesso
+    finalizaMemLog();  
+
     return 0;
 }
