@@ -13,6 +13,7 @@ CXX = g++
 BIN = bin
 SRC = src
 OBJ = obj
+TMP = tmp
 INC = include
 
 OBJS = $(OBJ)/main.o $(OBJ)/opcoesMain.o  $(OBJ)/vocabulario.o $(OBJ)/processadorDeDocumentos.o $(OBJ)/indiceInvertido.o $(OBJ)/listaEncadeadaTermoIndice.o $(OBJ)/listaEncadeadaOcorrencia.o $(OBJ)/processadorDeConsultas.o $(OBJ)/quicksort.o $(OBJ)/memlog.o
@@ -24,38 +25,47 @@ EXE = $(BIN)/main
 
 all: $(EXE) 
 
-$(BIN)/main: $(OBJS)
+$(BIN)/main: $(OBJS) | $(BIN) $(TMP)
 	$(CXX) -o $(BIN)/main $(OBJS) -lstdc++fs
 
-$(OBJ)/main.o: $(HDRS) $(SRC)/main.cpp
+$(OBJ)/main.o: $(HDRS) $(SRC)/main.cpp | $(OBJ)
 	$(CXX) $(CXXFLAGS) -o $(OBJ)/main.o $(SRC)/main.cpp
 
-$(OBJ)/opcoesMain.o: $(HDRS) $(SRC)/opcoesMain.cpp
+$(OBJ)/opcoesMain.o: $(HDRS) $(SRC)/opcoesMain.cpp | $(OBJ)
 	$(CXX) $(CXXFLAGS) -o $(OBJ)/opcoesMain.o $(SRC)/opcoesMain.cpp
 
-$(OBJ)/vocabulario.o: $(HDRS) $(SRC)/vocabulario.cpp
+$(OBJ)/vocabulario.o: $(HDRS) $(SRC)/vocabulario.cpp | $(OBJ)
 	$(CXX) $(CXXFLAGS) -o $(OBJ)/vocabulario.o $(SRC)/vocabulario.cpp
 
-$(OBJ)/processadorDeDocumentos.o: $(HDRS) $(SRC)/processadorDeDocumentos.cpp
+$(OBJ)/processadorDeDocumentos.o: $(HDRS) $(SRC)/processadorDeDocumentos.cpp | $(OBJ)
 	$(CXX) $(CXXFLAGS) -o $(OBJ)/processadorDeDocumentos.o $(SRC)/processadorDeDocumentos.cpp
 
-$(OBJ)/indiceInvertido.o: $(HDRS) $(SRC)/indiceInvertido.cpp
+$(OBJ)/indiceInvertido.o: $(HDRS) $(SRC)/indiceInvertido.cpp | $(OBJ)
 	$(CXX) $(CXXFLAGS) -o $(OBJ)/indiceInvertido.o $(SRC)/indiceInvertido.cpp
 
-$(OBJ)/listaEncadeadaTermoIndice.o: $(HDRS) $(SRC)/listaEncadeadaTermoIndice.cpp
+$(OBJ)/listaEncadeadaTermoIndice.o: $(HDRS) $(SRC)/listaEncadeadaTermoIndice.cpp | $(OBJ)
 	$(CXX) $(CXXFLAGS) -o $(OBJ)/listaEncadeadaTermoIndice.o $(SRC)/listaEncadeadaTermoIndice.cpp
 
-$(OBJ)/listaEncadeadaOcorrencia.o: $(HDRS) $(SRC)/listaEncadeadaOcorrencia.cpp
+$(OBJ)/listaEncadeadaOcorrencia.o: $(HDRS) $(SRC)/listaEncadeadaOcorrencia.cpp | $(OBJ)
 	$(CXX) $(CXXFLAGS) -o $(OBJ)/listaEncadeadaOcorrencia.o $(SRC)/listaEncadeadaOcorrencia.cpp
 
-$(OBJ)/processadorDeConsultas.o: $(HDRS) $(SRC)/processadorDeConsultas.cpp
+$(OBJ)/processadorDeConsultas.o: $(HDRS) $(SRC)/processadorDeConsultas.cpp | $(OBJ)
 	$(CXX) $(CXXFLAGS) -o $(OBJ)/processadorDeConsultas.o $(SRC)/processadorDeConsultas.cpp
 
-$(OBJ)/quicksort.o: $(HDRS) $(SRC)/quicksort.cpp
+$(OBJ)/quicksort.o: $(HDRS) $(SRC)/quicksort.cpp | $(OBJ)
 	$(CXX) $(CXXFLAGS) -o $(OBJ)/quicksort.o $(SRC)/quicksort.cpp
 
-$(OBJ)/memlog.o: $(HDRS) $(SRC)/memlog.cpp
+$(OBJ)/memlog.o: $(HDRS) $(SRC)/memlog.cpp | $(OBJ)
 	$(CXX) $(CXXFLAGS) -o $(OBJ)/memlog.o $(SRC)/memlog.cpp
 
+$(OBJ): 
+	mkdir $(OBJ)
+
+$(BIN):
+	mkdir $(BIN)
+
+$(TMP):
+	mkdir $(TMP)
+
 clean:
-	rm $(EXE) $(OBJS)
+	rm $(BIN) $(OBJ) $(TMP) -rf
