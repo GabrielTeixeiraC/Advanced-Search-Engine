@@ -35,7 +35,7 @@ The program works from the CLI, through the following commmands:
 
 ## Example:
 
-    ./bin/main -i queries/1.txt -o ./tmp/res.txt -c corpus -s stopwords.txt -p ./tmp/log.txt
+    ./bin/main -i ./tests/queries/1.txt -o ./tmp/res.txt -c ./tests/corpus -s ./tests/stopwords.txt -p ./tmp/log.txt
 
   ### Output:
     // Outputs the following documents, in order of relevance to the query:
