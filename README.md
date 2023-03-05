@@ -5,13 +5,12 @@ program removes words that do not contain much information (stopwords) from the 
 
 The implementation uses an inverted index (hash) to efficiently locate the documents containing the searched terms. Then, the program sorts the documents according 
 to their relevance to the searched terms. This is achieved by computing a similarity score between each document and the query terms using the tf-idf measure. 
-The documents with the highest similarity scores are then ranked higher in the search results, after a normalization step. The tf-idf measure takes into account both the frequency of a term 
-in a document (term frequency, or tf) and the inverse frequency of the term in the corpus (inverse document frequency, or idf).
+The documents with the highest similarity scores are then ranked higher in the search results, after a normalization step. The tf-idf measure takes into account both the frequency of a term in a document (term frequency, or tf) and the inverse frequency of the term in the corpus (inverse document frequency, or idf).
 
 All data structures were implemented without using the STL or similar libraries.
 
 ## Compilation:
-To compile the program, run:
+To compile the program, navigate to the directory containing the source code and run the following command:
 
     make all
 ## Usage:
@@ -35,15 +34,16 @@ The program works from the CLI, through the following commmands:
 
 ## Example:
 
-    ./bin/main -i ./tests/queries/1.txt -o ./tmp/res.txt -c ./tests/corpus -s ./tests/stopwords.txt -p ./tmp/log.txt
+    ./bin/main -i ./tests/queries/1.txt -o ./tmp/res.txt -c ./tests/corpus -s ./tests/stopwords.txt -p ./tmp/log.txt -l
+    
+  ### Input:
+    laptop
 
   ### Output:
-    // Outputs the following documents, in order of relevance to the query:
+    // Outputs the following documents, in order of relevance to the query 'laptop':
     7425 14681 13864 14850 14259 8877 8763 1599 15323 4536 
     
 ## References:
-
-Referências
 Gerard Salton and Christopher Buckley. 1988. Term-weighting approaches in automatic
 text retrieval. Inf. Process. Manage. 24, 5 (August 1988), 513-523.
 
